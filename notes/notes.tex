@@ -1,0 +1,117 @@
+% **************************************************
+% Document Class Definition
+% **************************************************
+\documentclass[
+    paper=A4,               % paper size --> A4 is default in Germany
+    twoside=true,           % onesite or twoside printing
+    openright,              % doublepage cleaning ends up right side
+    parskip=full,           % spacing value / method for paragraphs
+    chapterprefix=true,     % prefix for chapter marks
+    11pt,                   % font size
+    headings=normal,        % size of headings
+    bibliography=totoc,     % include bib in toc
+    listof=totoc,           % include listof entries in toc
+    titlepage=on,           % own page for each title page
+    captions=tableabove,    % display table captions above the float env
+    draft=false,            % value for draft version
+]{scrreprt}
+
+\input{cleanthesis_setup}
+\AtEveryCite{\color{ugent_blue}}
+
+\begin{document}
+
+    \renewcaptionname{english}{\figurename}{Fig.}
+    \renewcaptionname{english}{\tablename}{Tab.}
+
+
+    % ------------
+    % FRONT MATTER
+    % ------------
+
+    % COVER
+    \input{cover}
+    \pagenumbering{roman}           % roman page numbing (invisible for empty page style)
+    \pagestyle{empty}               % no header or footers
+    \cleardoublepage
+
+    % ABSTRACT
+    \pagestyle{plain}               % display just page numbers
+%\input{content/abstract}           % INCLUDE: the abstracts (english and german)
+
+    % ACKNOWLEDGEMENTS
+    \cleardoublepage
+    %\input{content/acknowledgement} % INCLUDE: acknowledgement
+
+
+    % TABLE OF CONTENTS
+    \dominitoc
+
+    \cleardoublepage
+    \setcounter{tocdepth}{2}        % define depth of toc
+    \tableofcontents                % display table of contents
+    \cleardoublepage
+
+
+
+    % -----------
+    % MAIN MATTER
+    % -----------
+    \pagenumbering{arabic}          % arabic page numbering
+    \setcounter{page}{1}            % set page counter
+    \pagestyle{maincontentstyle}    % fancy header and footer
+    \numberwithin{equation}{section}
+
+
+
+    % The following input statements correspond to the different chapters of these notes
+    \chapter{Theory}
+    \input{content/theory}
+
+
+    \cleardoublepage
+    \chapter{Research story}
+    \input{content/story}
+
+
+
+    % --------------------------
+    % BACK MATTER
+    % --------------------------
+    %\appendix
+
+    % APPENDIX
+    %\cleardoublepage
+    %\input{content/chapter-appendix}       % INCLUDE: appendix
+
+
+    % BIBLIOGRAPHY
+    {
+        \setstretch{1.1}
+        \renewcommand{\bibfont}{\normalfont\small}
+        \setlength{\biblabelsep}{0pt}
+        \setlength{\bibitemsep}{0.5\baselineskip plus 0.5\baselineskip}
+        \printbibliography[nottype=online]
+        \printbibliography[heading=subbibliography,title={Webpages},type=online,prefixnumbers={@}]
+    }
+    \cleardoublepage
+
+
+    % LISTS OF FIGURES AND TABLES
+    %\listoffigures
+    %\cleardoublepage
+
+    %\listoftables
+    %\cleardoublepage
+
+
+    % COLOPHON
+    %\input{content/colophon}
+    %\cleardoublepage
+
+    % DECLARATION
+    %\input{content/declaration}
+    %\clearpage
+    %\newpage
+    %\mbox{}
+\end{document}

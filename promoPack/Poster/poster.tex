@@ -1,0 +1,119 @@
+\documentclass[25pt, a0paper, portrait]{tikzposter}
+\tikzposterlatexaffectionproofoff
+
+\usetitlestyle{Empty}
+\usebackgroundstyle{Empty}
+\usepackage{wrapfig}
+\usepackage[utf8]{inputenc}
+\usepackage{physics}
+\usepackage[mathscr]{euscript}  % \mathscr
+\usepackage{mhchem}
+\usepackage{subcaption}
+
+
+\input{config/commands}
+\bibliographystyle{unsrt}
+
+
+
+%
+%   TITLE
+%
+
+\title{
+    \parbox{\linewidth}{ \center
+        \HUGE{
+            \textcolor{ugent_blue}{
+                \textbf{
+                    Title of your research
+                }
+            }
+        }
+    }
+}
+
+\renewcommand\emph[1]{\textcolor{ugent_blue}{\textbf{#1}}}
+\renewcommand\refname{\vskip -1cm}
+\renewcommand{\familydefault}{\sfdefault}  % for the main font, use sans serif Computer Modern
+
+
+
+%
+%   AUTHORS AND AFFILIATIONS
+%
+\author[$\dagger$]{Author 1} 
+\author[$\dagger$]{Author 2} 
+\author[$\ddagger$]{Author 3}
+
+
+\affil[$\dagger$]{Affiliation 1}
+\affil[$\ddagger$]{Affiliation 2}
+
+
+
+
+
+%
+%   MAIN DOCUMENT
+%
+
+\begin{document}
+
+\maketitle
+
+\begin{columns}
+    % Left Column.
+    \column{0.5}
+        % Introduction block.
+        \block{Introduction} {
+            This block should always be there and should briefly introduce your research. Citations can be made as normal \cite{acke2020a}. If you want to \emph{emphasize} something, you can.
+        }
+
+        % Results block 1.
+        \block{Results block 1}{
+            Add an initial part of your results here
+        }
+        
+        % Contact and Acknowledgements block.
+        \block{Conclusions} {
+            Add the coclusions of your research.
+        }
+
+        % Block containing the references.
+        \block{References} {
+            \bibliography{poster.bib}
+        }
+        
+    % Right Column.
+    \column{0.5}
+
+        % Theory
+        \block{Theory}{
+            Add a small theory section. Keep your theory short and to the point.
+        }
+        
+        % Results block 2.
+        \block{Results 2}{
+            This is where you can add the rest of your results.
+        }
+
+        % Contact and Acknowledgements block.
+        \block{Contact and acknowledgements} {
+            Contact via e-mail at yourEmail@ugent.be. \\
+            Reference the code you used, if any. \\
+            \begin{wrapfigure}[1]{r}{10cm}
+                \vspace{-2cm}
+                \begin{tikzfigure}[]
+                    \includegraphics[height=5cm]{figures/ugent_logo}
+                \end{tikzfigure}
+            \end{wrapfigure}
+            We gratefully acknowledge FWO Flanders for financial support. \\
+            \begin{tabular}{l@{\hskip 1cm}c}
+                \hspace{-1cm} \includegraphics[height=3cm]{figures/gqcg_logo} & \includegraphics[height=3cm]{figures/fwo_logo}
+            \end{tabular}
+        }
+
+
+\end{columns}
+
+\end{document}

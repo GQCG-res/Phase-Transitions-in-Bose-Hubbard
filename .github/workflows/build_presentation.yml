@@ -1,0 +1,41 @@
+name: Build presentation
+
+on:
+  push:
+    paths:
+      - "PromoPack/Presentation/**"
+      - "PromoPack/img/**"
+      - ".github/workflows/build_presentation.yml"
+    branches:
+      - develop
+  pull_request:
+    paths:
+      - "PromoPack/Presentation/**"
+      - "PromoPack/img/**"
+      - ".github/workflows/build_presentation.yml"
+
+jobs:
+  build-presentation:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Set up Git repository
+      uses: actions/checkout@v1
+    - name: Compile LaTeX document
+      uses: gqcg-oss/latex-action@master
+      with:
+        root_file: Presentation.tex
+        working_directory: promoPack/Presentation
+        latexmk_use_xelatex: true
+    - name: Archive presentation.pdf for PR
+      uses: actions/upload-artifact@v2
+      with:
+        name: presentation.pdf
+        path: promoPack/Presentation/Presentation.pdf
+        retention-days: 5
+      if: ${{ github.event_name == 'pull_request'}}
+    - name: Archive presentation.pdf for develop
+      uses: actions/upload-artifact@v2
+      with:
+        name: presentation.pdf
+        path: promoPack/Presentation/Presentation.pdf
+      if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/develop' }}    

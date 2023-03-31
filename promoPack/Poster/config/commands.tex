@@ -1,0 +1,31 @@
+%   Define a HUGE command, for the title
+\makeatletter
+\newcommand\HUGE{\@setfontsize\Huge{84}{0}}
+\makeatother
+
+
+%
+%   Improve author and affiliation design
+%
+\usepackage{authblk}
+
+% Loading authblk leads to a very large vspace after the title. https://tex.stackexchange.com/a/352566/106914
+\makeatletter
+\renewcommand\maketitle{\AB@maketitle} % revert \maketitle to its old definition
+\renewcommand\Affilfont{\Large} % set font for affiliations
+\makeatother
+
+
+
+%
+%   Define colors
+%
+\usepackage{xcolor}
+\definecolor{ugent_blue}{RGB}{30, 100, 200}
+\newcommand{\textcbf}[1]{\textcolor{ugent_blue}{\textbf{#1}}}  % text colorized and bold-faced
+
+
+\definecolorstyle{myColorStyle} {} {
+    \colorlet{blocktitlebgcolor}{ugent_blue!80}
+}
+\usecolorstyle{myColorStyle}

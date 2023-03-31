@@ -1,0 +1,270 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%This is the LaTeX ARTICLE template for RSC journals
+%Copyright The Royal Society of Chemistry 2016
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\documentclass[twoside,twocolumn,9pt]{article}
+
+\usepackage{tgheros}
+\renewcommand{\familydefault}{\sfdefault}
+
+\usepackage{extsizes}
+\usepackage[super,sort&compress,comma]{natbib} 
+\usepackage[version=3]{mhchem}
+\usepackage[left=1.5cm, right=1.5cm, top=1.785cm, bottom=2.0cm]{geometry}
+\usepackage{balance}
+\usepackage{mathptmx}
+\usepackage{sectsty}
+\usepackage{graphicx} 
+\usepackage{lastpage}
+\usepackage[format=plain,justification=justified,singlelinecheck=false,font={stretch=1.125,small,sf},labelfont=bf,labelsep=space]{caption}
+\usepackage{float}
+\usepackage{fancyhdr}
+\usepackage{fnpos}
+\usepackage[english]{babel}
+\addto{\captionsenglish}{%
+  \renewcommand{\refname}{Notes and references}
+}
+\usepackage{array}
+\usepackage{droidsans}
+\usepackage{charter}
+\usepackage[T1]{fontenc}
+\usepackage[usenames,dvipsnames]{xcolor}
+\usepackage{setspace}
+\usepackage[compact]{titlesec}
+\usepackage[utf8]{inputenc}
+%%%Please don't disable any packages in the preamble, as this may cause the template to display incorrectly.%%%
+
+
+\usepackage{xcolor}
+\definecolor{ugent_blue}{RGB}{30, 100, 200}
+\definecolor{ugent_yellow}{cmyk}{.0, .10, 1, 0}
+
+\usepackage{titlesec}
+\titleformat{\section}
+{\color{ugent_blue}\normalfont\Large\bfseries}
+{\color{ugent_blue}\thesection}{1em}{}
+
+\usepackage[colorlinks=true,linkcolor=black,citecolor=ugent_blue]{hyperref}
+
+\usepackage{lineno}
+\linenumbers
+
+%\AtEveryCite{\color{ugent_blue}}
+
+
+
+
+\usepackage{epstopdf}%This line makes .eps figures into .pdf - please comment out if not required.
+
+\definecolor{cream}{RGB}{222,217,201}
+
+\begin{document}
+
+\pagestyle{fancy}
+\thispagestyle{plain}
+\fancypagestyle{plain}{
+%%%HEADER%%%
+\renewcommand{\headrulewidth}{0pt}
+}
+%%%END OF HEADER%%%
+
+%%%PAGE SETUP - Please do not change any commands within this section%%%
+\makeFNbottom
+\makeatletter
+\renewcommand\LARGE{\@setfontsize\LARGE{15pt}{17}}
+\renewcommand\Large{\@setfontsize\Large{12pt}{14}}
+\renewcommand\large{\@setfontsize\large{10pt}{12}}
+\renewcommand\footnotesize{\@setfontsize\footnotesize{7pt}{10}}
+\makeatother
+
+\renewcommand{\thefootnote}{\fnsymbol{footnote}}
+\renewcommand\footnoterule{\vspace*{1pt}% 
+\color{cream}\hrule width 3.5in height 0.4pt \color{black}\vspace*{5pt}} 
+\setcounter{secnumdepth}{5}
+
+\makeatletter 
+\renewcommand\@biblabel[1]{#1}            
+\renewcommand\@makefntext[1]% 
+{\noindent\makebox[0pt][r]{\@thefnmark\,}#1}
+\makeatother 
+\renewcommand{\figurename}{\small{Fig.}~}
+\sectionfont{\sffamily\Large}
+\subsectionfont{\normalsize}
+\subsubsectionfont{\bf}
+\setstretch{1.125} %In particular, please do not alter this line.
+\setlength{\skip\footins}{0.8cm}
+\setlength{\footnotesep}{0.25cm}
+\setlength{\jot}{10pt}
+\titlespacing*{\section}{0pt}{4pt}{4pt}
+\titlespacing*{\subsection}{0pt}{15pt}{1pt}
+%%%END OF PAGE SETUP%%%
+
+%%%FOOTER%%%
+\fancyfoot{}
+\fancyfoot[LO,RE]{\vspace{-7.1pt}\includegraphics[height=9pt]{head_foot/LF}}
+\fancyfoot[CO]{\vspace{-7.1pt}\hspace{11.9cm}\includegraphics{head_foot/RF}}
+\fancyfoot[CE]{\vspace{-7.2pt}\hspace{-13.2cm}\includegraphics{head_foot/RF}}
+\fancyfoot[RO]{\footnotesize{\sffamily{1--\pageref{LastPage} {\color{ugent_yellow} ~\textbar } \hspace{2pt}\thepage}}}
+\fancyfoot[LE]{\footnotesize{\sffamily{\thepage~{\color{ugent_yellow} ~\textbar }\hspace{4.65cm} 1--\pageref{LastPage}}}}
+\fancyhead{}
+\renewcommand{\headrulewidth}{0pt} 
+\renewcommand{\footrulewidth}{0pt}
+\setlength{\arrayrulewidth}{1pt}
+\setlength{\columnsep}{6.5mm}
+\setlength\bibsep{1pt}
+%%%END OF FOOTER%%%
+
+%%%FIGURE SETUP - please do not change any commands within this section%%%
+\makeatletter 
+\newlength{\figrulesep} 
+\setlength{\figrulesep}{0.5\textfloatsep} 
+
+\newcommand{\topfigrule}{\vspace*{-1pt}% 
+\noindent{\color{cream}\rule[-\figrulesep]{\columnwidth}{1.5pt}} }
+
+\newcommand{\botfigrule}{\vspace*{-2pt}% 
+\noindent{\color{cream}\rule[\figrulesep]{\columnwidth}{1.5pt}} }
+
+\newcommand{\dblfigrule}{\vspace*{-1pt}% 
+\noindent{\color{cream}\rule[-\figrulesep]{\textwidth}{1.5pt}} }
+
+\makeatother
+%%%END OF FIGURE SETUP%%%
+
+%%%TITLE, AUTHORS AND ABSTRACT%%%
+\twocolumn[
+  \begin{@twocolumnfalse}
+{\includegraphics[height=30pt]{head_foot/journal_name}\hfill\raisebox{0pt}[0pt][0pt]{\includegraphics[height=55pt]{head_foot/RSC_LOGO_CMYK}}\\[1ex]
+\includegraphics[width=18.5cm]{head_foot/header_bar}}\par
+\vspace{1em}
+\sffamily
+\begin{tabular}{m{4.5cm} p{13.5cm} }
+
+& \noindent\LARGE{\textbf{This is the title$^\dag$}} \\%Article title goes here instead of the text "This is the title"
+\vspace{0.3cm} & \vspace{0.3cm} \\
+
+& \noindent\large{Full Name,$^{\ast}$\textit{$^{a}$} Full Name,\textit{$^{b\ddag}$} and Full Name\textit{$^{a}$}} \\%Author names go here instead of "Full name", etc.
+
+& \\
+
+& \noindent\normalsize{Do \emph{not} write an abstract. That will be done when the outline has matured into a completed paper.} \\%The abstrast goes here instead of the text "The abstract should be..."
+
+\end{tabular}
+
+\end{@twocolumnfalse} \vspace{1.6cm}
+
+  ]
+%%%END OF TITLE, AUTHORS AND ABSTRACT%%%
+
+%%%FONT SETUP - please do not change any commands within this section
+\renewcommand*\rmdefault{bch}\normalfont\upshape
+\rmfamily
+\section*{}
+\vspace{-1cm}
+
+
+% %%%FOOTNOTES%%%
+
+\footnotetext{\textit{$^{a}$~Department of Chemistry, Ghent University, Krijgslaan 281 (S3), B-9000 Ghent, Belgium}}
+\footnotetext{\textit{$^{b}$~Corresponding author:} \texttt{firstname.lastname@ugent.be}}
+
+% %Please use \dag to cite the ESI in the main text of the article.
+% %If you article does not have ESI please remove the the \dag symbol from the title and the footnotetext below.
+% \footnotetext{\dag~Electronic Supplementary Information (ESI) available: [details of any supplementary information available should be included here]. See DOI: 00.0000/00000000.}
+% %additional addresses can be cited as above using the lower-case letters, c, d, e... If all authors are from the same address, no letter is required
+
+% \footnotetext{\ddag~Additional footnotes to the title and authors can be included \textit{e.g.}\ `Present address:' or `These authors contributed equally to this work' as above using the symbols: \ddag, \textsection, and \P. Please place the appropriate symbol next to the author's name and include a \texttt{\textbackslash footnotetext} entry in the the correct place in the list.}
+
+
+%%%END OF FOOTNOTES%%%
+
+%%%MAIN TEXT%%%%
+
+
+\section{Introduction}
+
+Central ideas: Why did I do the work? What were the central motivations and hypotheses?
+
+The first paragraph or two should be written out completely. Pay particular attention to the opening sentence. Ideally, it should state concisely the objective of the work, and indicate why this objective is important.
+In general, the Introduction should have these elements: 
+
+\begin{itemize}
+    \item The objectives of the work. 
+    \item The justification for these objectives: Why is the work important? Cite the most important works \cite{whitesides2004a}.
+    \item Background: Who else has done what? How? What have we done previously?
+    \item Guidance to the reader: What should the reader watch for in the paper? What are the interesting high points? What strategy did we use?
+    \item Summary/conclusion: What should the reader expect as conclusion? In advanced versions of the outline, you should also include all the sections that will go in the Experimental section (at the level of paragraph subheadings) and indicate what information will go in the Microfilm section.
+\end{itemize}
+
+\section{Theory}
+
+Optional section where you explain any theoretical constructs. In preliminary outline phases, this can be reduced to a set of essential equations.
+
+\section{Methodology}
+
+How were methods/descriptors implemented and characterized? Which systems are of interest for this hypothesis?
+
+\section{Results and discussion}
+
+Central ideas: What were the results? Organize the outline and the paper around easily assimilated data - tables, equations, figures, schemes - rather than around text. Organize in order of importance, not in chronological order.
+
+The results and discussion are usually combined. This section should be organized according to major topics. The separate parts should have subheadings in boldface to make this organization clear, and to help the reader scan through the final text to find the parts of interest. The following list includes examples of phrases that might plausibly serve as section headings:
+\begin{itemize}
+    \item Absolute Configuration of the Vicinal Diol Unit Hysteresis Correlates with Roughness of the Surface Dependence of the Rate Constant on Temperature
+    \item The Rate of Self-Exchange Decreases with the Polarity of the Solvent
+\end{itemize}
+Try to make these section headings as specific and information-rich as possible. For example, the phrase ``The Rate of Self-Exchange Decreases with The Polarity of The Solvent" is obviously longer than ``Measurement of Rates", but much more useful to the reader.
+
+In general, try to cover the major common points:
+\begin{itemize}
+    \item Method implementation
+    \item Method characterization
+    \item System characterization
+    \item Results
+\end{itemize}
+In the outline, do not write any significant amount of text, but get all the data in their proper place: Any text should simply indicate what will go in that section.
+\begin{itemize}
+    \item Section Headings
+    \item Figures (with captions)
+    \item Schemes (with captions and footnotes) 
+    \item Equations
+    \item Tables (correctly formatted)
+\end{itemize}
+Remember to think of a paper as a collection of computational results, summarized as clearly and economically as possible in figures, tables, equations, and schemes. The text in the paper serves just to explain the data, and is secondary. The more information can be compressed into tables, equations, etc., the shorter and more readable the paper will be. If you do not yet have the relevant figures, use placeholders, such as in figure \ref{fig:my_label}.
+
+\begin{center}
+    \begin{figure}
+        \includegraphics[width=\linewidth]{example-image}
+        \caption{Interpretation of figures goes here. First focus on improving the readability of the figures, then on the captions.}
+        \label{fig:my_label}
+    \end{figure}
+\end{center}
+
+\section{Conclusions}
+
+Central ideas: What does it all mean? What hypotheses were proved or disproved? What did I learn? Why does it make a difference?
+
+In the outline, summarize the conclusions of the paper as a list of short phrases or sentences. Do not repeat what is in the Results section, unless special emphasis is needed. The Conclusions section should be just that, and not a summary. It should add a new, higher level of analysis, and should indicate explicitly the significance of the work.
+
+\section*{Acknowledgements}
+
+\begin{itemize}
+  \item FWO, BOF 
+  \item HPC 
+\end{itemize}
+
+%%%END OF MAIN TEXT%%%
+
+%The \balance command can be used to balance the columns on the final page if desired. It should be placed anywhere within the first column of the last page.
+
+\balance
+
+%If notes are included in your references you can change the title from 'References' to 'Notes and references' using the following command:
+%\renewcommand\refname{Notes and references}
+
+%%%REFERENCES%%%
+\bibliography{outline} %You need to replace "rsc" on this line with the name of your .bib file
+\bibliographystyle{aip} %the AIP's .bst file
+
+\end{document}

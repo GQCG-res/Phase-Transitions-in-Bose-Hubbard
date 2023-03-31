@@ -1,0 +1,76 @@
+
+\newgeometry{top = 0in,bottom = 0in, left = 0in, right = 0in}
+\thispagestyle{empty}
+
+
+% Top logo
+\begin{figure}[H]
+    \includegraphics[height=1.25in]{figures/logo_ugent_wetenschappen}
+\end{figure}
+
+
+% Middle colored boxes
+\begin{tikzpicture}[remember picture, overlay] \sffamily
+
+    % Large science-colored box
+    \node[yshift=-1.25in, xshift=0.42in] (background) [ %
+        shape = rectangle, %
+        fill = sciences, %
+        minimum height = 8.76in, %
+        minimum width = 7.85in, %
+        anchor = north west %
+    ] at (current page.north west) %
+    {};
+
+    % Smaller ugent-blue box
+    \node[yshift=-5.68in, xshift=0.42in] (text_background) [ %
+        shape = rectangle, %
+        fill = ugent_blue, %
+        minimum height = 4.33in, %
+        minimum width = 5.12in, %
+        anchor = north west, text width = 5.12in] %
+        at (current page.north west) %
+    {
+        \vspace*{0.5in} %
+
+        { %
+            \hspace{0.1in} %
+            \fontsize{35pt}{40pt} %
+            \selectfont %
+            \textcolor{white}{
+                \thesisTitle %
+            } %
+        } %
+
+        \vspace*{1.5in} %
+
+        { %
+            \hspace{0.1in} %
+            \fontsize{18pt}{20pt} %
+            \selectfont %
+            \textcolor{white}{ %
+                \thesisName %
+            } %
+        }
+
+        \vspace*{0.3in} %
+
+        { %
+            \hspace{0.1in} %
+            \fontsize{15pt}{17pt} %
+            \selectfont %
+            \textcolor{white}{ %
+                \thesisVersion %
+            } %
+        }
+    };
+\end{tikzpicture}
+
+
+% Bottom UGent logo
+\begin{figure}[b]
+    \includegraphics[height=1.67in]{figures/logo_ugent}
+\end{figure}
+
+\restoregeometry
+\clearpage

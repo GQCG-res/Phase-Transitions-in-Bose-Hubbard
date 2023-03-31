@@ -1,0 +1,104 @@
+\documentclass[aspectratio=169]{beamer}
+\usepackage{xcolor}
+\usepackage{multicol}
+\usepackage{hyperref}
+\usepackage{amsmath}
+\usepackage{mhchem}
+\usepackage{subcaption}
+\usepackage{xparse}
+\usepackage{physics}
+\usepackage[mathscr]{euscript}  % \mathscr
+\usepackage[style=verbose, backend=biber]{biblatex}
+
+% Metadata of the presentation
+\title{Title of your presentation}
+\subtitle{}
+\author[DB]{Your name}
+\date{\today}
+
+
+% Macro aimed at loading themes in different directories
+\makeatletter
+  \def\beamer@calltheme#1#2#3{%
+    \def\beamer@themelist{#2}
+    \@for\beamer@themename:=\beamer@themelist\do
+    {\usepackage[{#1}]{\beamer@themelocation/#3\beamer@themename}}}
+
+  \def\usefolder#1{
+    \def\beamer@themelocation{#1}
+  }
+  \def\beamer@themelocation{}
+
+% Load the UGent theme
+\usefolder{./theme}
+\usetheme[language=en,faculty=we,usecolors]{ugent}
+\useinnertheme{ugent}
+\useoutertheme{ugent}
+\usecolortheme{ugent}
+\usefonttheme{ugent}
+
+% Path to images
+\graphicspath{{./theme/}}
+
+\bibliography{presentation.bib}
+
+
+% Have this if you'd like section slides 
+\AtBeginSection[]{
+    \sectionframe
+}
+
+% \NewDocumentEnvironment{itemizewithimage}{ m b }{%
+% \begin{center}%
+%     \includegraphics[height=4cm,width=\textwidth,keepaspectratio]{#1}%
+% \end{center}%
+% \vfill%
+% \begin{minipage}[t][3cm][t]{\textwidth}
+%   \begin{itemize}%
+%       #2
+%   \end{itemize}%
+% \end{minipage}
+% }{%
+% }
+\definecolor{ugent_blue}{RGB}{30, 100, 200}
+\renewcommand\emph[1]{\textcolor{ugent_blue}{\textbf{#1}}}
+
+\begin{document}
+
+\titleframe
+
+\begin{frame}
+\frametitle{In collaboration with...}
+  If your research was done in collaboration with other people, introduce them here.
+\end{frame}
+
+
+\begin{frame}
+  \frametitle{Elucidate the problem: why did you do your research}
+  Citations can be made in the footnote\footcite{acke2020a}.
+\end{frame}
+
+\begin{frame}
+\frametitle{Theory}
+    Keep your theory short and to the point.
+\end{frame}
+
+\begin{frame}
+\frametitle{Discuss your results.}
+    \begin{itemize}
+      \item Try to avoid text.
+      \item Let your results speak for themselves.
+    \end{itemize}
+    
+\end{frame}
+
+
+\begin{frame}
+\frametitle{Conclusions}
+\begin{itemize}
+  \item End your presentation with the most importatnt figures of your presentation.
+  \item Mention possible future research routes.
+\end{itemize}
+\end{frame}
+
+\end{document}

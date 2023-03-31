@@ -1,0 +1,36 @@
+name: Build and archive notes
+
+on:
+  push:
+    branches:
+      - develop
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Set up Git repository
+      uses: actions/checkout@v2
+
+    - name: Compile LaTeX document
+      uses: gqcg-oss/latex-action@master
+      with:
+        root_file: notes.tex
+        working_directory: notes
+        latexmk_use_xelatex: true
+
+    - name: Archive outline for develop
+      uses: actions/upload-artifact@v2
+      with:
+        name: notes.pdf
+        path: notes/notes.pdf
+      if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/develop' }}
+
+    - name: Archive outline for PR
+      uses: actions/upload-artifact@v2
+      with:
+        name: notes.pdf
+        path: notes/notes.pdf
+        retention-days: 5
+      if: ${{ github.event_name == 'pull_request'}}
