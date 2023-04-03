@@ -188,32 +188,33 @@
 
 \section{Introduction}
 
-The Bose-Hubbard model provides an excellent testbench to study quantum phase transitions (QPTs) \cite{sachdev1999} of strongly interacting bosonic systems in one \cite{kuhner1998} as well as higher dimensions \cite{freericks1994}. Due to the fundamental algebra underlying the physics of bosonic systems, the phase diagram of the bose-Hubbard model becomes more rich than that of its fermionic counterpart \cite{gu2004, deng2006, cozzini2007, chung2021, devriendt2022}. 
+The Bose-Hubbard model provides an excellent testbed to study quantum phase transitions (QPTs) \cite{sachdev1999} of strongly interacting bosonic systems in one \cite{kuhner1998} as well as higher dimensions \cite{freericks1994}. Due to the fundamental algebra underlying the physics of bosonic systems, the phase diagram of the bose-Hubbard model becomes more rich than that of its fermionic counterpart \cite{gu2004, deng2006, cozzini2007, chung2021, devriendt2022}. 
 
-Of particular interest is the Mott-Hubbard transition \cite{mott1949}, which in the bosonic model encapsulates a quantum phase transition from a superfluid to a Mott-insulator (MI) \cite{elstner1999, capello2007, cucchietti2007}. In one dimension, this yransition agrees with the Berezinskii-Kosterlitz-Thouless (BKT) \cite{kosterlitz1973} scenario of the interaction-driven Mott transition.
+Of particular interest is the Mott-Hubbard transition \cite{mott1949}, which in the bosonic model encapsulates a quantum phase transition from a superfluid to a Mott-insulator (MI) \cite{elstner1999, capello2007, cucchietti2007}. In one dimension, this transition agrees with the Berezinskii-Kosterlitz-Thouless (BKT) \cite{kosterlitz1973} scenario of the interaction-driven Mott transition.
 
 \begin{itemize}
-    \item In this work we will aim to model the occuring phase transitions in the bosonic Hubbard model. This can be done by means of constrained wavefunction theory, but different approaches will be studied simultaneously.
-    \item By doing so we will be able to gain a deeper understanding of the occuring quantum phase transitions, especially the superfluid-MI BKT transition.
+    \item In this work we will aim to model the occurring phase transitions in the bosonic Hubbard model. This can be done by means of constrained wavefunction theory, but different approaches will be studied simultaneously.
+    \item By doing so we will be able to gain a deeper understanding of the occurring quantum phase transitions, especially the superfluid-MI BKT transition.
     \item Comparison between results from an exact diagonalization approach \cite{zhang2010} and a matrix-product-state (MPS) \cite{perez2006} approach can lead to insights in where the limits of both approaches lie.
-    \item Entanglement studies and quantum information theory principles can be applied in order to further characterise the obtained QPTs.
+    \item Entanglement studies and quantum information theory principles can be applied in order to further characterize the obtained QPTs.
 \end{itemize}
 
 \section{Theory}
 \subsection{The bose-Hubbard model}
-The bose-Hubbard model Hamiltonian can be defined in an abstract site basis consisting of $L$ sites, allowing for intersite hopping between nearest neighbours only, while introducoing a site-dependent on-site repulsion that penalizes multiple occupation on a single site
+The bose-Hubbard model Hamiltonian can be defined in an abstract site basis consisting of $L$ sites, allowing for inter-site hopping between nearest neighbors only, while introducing a site-dependent on-site repulsion that penalizes multiple occupation on a single site
 \begin{equation}
   \hat{H} = \sum_{<i,j>} t_{ij}\hat{b}_i^\dagger \hat{b}_j + \frac{1}{2}\sum_i U_i\hat{b}_i^{\dagger 2} \hat{b}_i^{2} \thinspace ,
 \end{equation}
-where $t_{ij}$ is the hopping parameter which only affects nearest neighbours $<i,j>$, $U_i$ is the on-site energetic penalty and $\hat{b}^\dagger$ and $\hat{b}$ are the bosonic creation and annihilation operators respectively, which satisfy the bosonic commutation rules. Oftentimes a site-specific on-site potential is added to this model to allow for the introduction of asymmetry between the sites
+where $t_{ij}$ is the hopping parameter which only affects nearest neighbors $<i,j>$, $U_i$ is the on-site energetic penalty and $\hat{b}^\dagger$ and $\hat{b}$ are the bosonic creation and annihilation operators respectively, which satisfy the bosonic commutation rules. Oftentimes a site-specific on-site potential is added to this model to allow for the introduction of asymmetry between the sites
 \begin{equation}
   \hat{H} = \sum_{<i,j>} t_{ij}\hat{b}_i^\dagger \hat{b}_j + \frac{1}{2}\sum_i U_i\hat{b}_i^{\dagger 2} \hat{b}_i^{2} + \sum_i \omega_i \hat{b}_i^\dagger \hat{b}_i \thinspace .
   \label{eq:bose-hubbard-hamiltonian}
 \end{equation}
-Since the Hubbard Hamiltonian commutes with the total number operator $\hat{n}_i$
+Since the Hubbard Hamiltonian commutes with the total number operator $\hat{n}$
 \begin{align}
   \hat{n}_i = \hat{b}_i^\dagger \hat{b}_i \thinspace &, \\
-  [\hat{H}, \hat{n}_i] = 0 \thinspace &,
+  \hat{n} = \sum_i \hat{n}_i \thinspace &, \\
+  [\hat{H}, \hat{n}] = 0 \thinspace &,
 \end{align}
 the eigenstates of the Hamiltonian can be expanded in the orthonormal basis spanned by the eigenstates of the number operator
 \begin{equation}
@@ -226,7 +227,7 @@ the eigenstates of the Hamiltonian can be expanded in the orthonormal basis span
 with $\Psi^{n_{1} \ldots n_{L}}$ the expansion coefficient belonging to a basis state $\ket{n_{1}\dots n_{L}}$ over $L$ sites.
 
 \subsection{Population redistributions on the bose-Hubbard model}
-As shown in literature \cite{devriendt2021, devriendt2022}, we can redistribute particles within our system by iomposing constraints through a Lagrangian formalism \cite{mukherji1963, zeiss1983, kaduk2011}
+As shown in literature \cite{devriendt2021, devriendt2022}, we can redistribute particles within our system by imposing constraints through a Lagrangian formalism \cite{mukherji1963, zeiss1983, kaduk2011}
 \begin{equation}
   \mathscr{L}(\vb{p}, \mu)
         = E_{tot}(\vb{p})
@@ -261,7 +262,7 @@ Using these stationary conditions we can derive a modified Hamiltonian $\hat{H}_
   \hat{H}_{mod}(\mu) = \hat{H} - \mu \hat{m} \thinspace .
   \label{eq:modified-hamiltonian}
 \end{equation}
-It is important yto note that, while the modified Hamiltonian is suited to optimize the model parameters of the wave function in such a way that the stationary condition of the Lagrange multiplier is satisfied, the energy of the system needs to be calculated using the original Hamiltonian of the system. This can be acieved by correcting for the imposed feature
+It is important yto note that, while the modified Hamiltonian is suited to optimize the model parameters of the wave function in such a way that the stationary condition of the Lagrange multiplier is satisfied, the energy of the system needs to be calculated using the original Hamiltonian of the system. This can be achieved by correcting for the imposed feature
 \begin{align}
   \begin{split}
     E_{tot}(\vb{p}^\star)
@@ -287,11 +288,11 @@ where the \emph{chemical potential} $\mu$ can be tuned in order to impose a cert
 
 \section{Methodology}
 
-For the exact diagonalization (ED) calculations we look at a one-dimensional bose-Hubbard model of three sites, containing three bosons. The ED algorithm is self-implemented based on the algorithm described by Zhang and coworkers \cite{zhang2010}. $U/t$ is varied by gradually lowering the nearest neighbour hopping $t_{ij}$, evolving the system towards a more strongly correlated state. The formalism of constraints is either applied by scanning over a range of chemical potentials ($\mu_{os}$) or by optimizing the Lagrange multiplier in order to impose a certain population on the open subsystem ($N_{os}$). The latter is achieved by finding the root of the associated constraint $(\hat{n} - \expval{\hat{n}})$. When optimizing towards a certain population, a small asymmetry is introduced in the on-site potentials $\omega_i$, in order to facilitate the optimization procedure. All routines were implemented in-house. 
+For the exact diagonalization (ED) calculations we look at a one-dimensional bose-Hubbard model of three sites, containing three bosons. The ED algorithm is self-implemented based on the algorithm described by Zhang and coworkers \cite{zhang2010}. $U/t$ is varied by gradually lowering the nearest neighbor hopping $t_{ij}$, evolving the system towards a more strongly correlated state. The formalism of constraints is either applied by scanning over a range of chemical potentials ($\mu_{os}$) or by optimizing the Lagrange multiplier in order to impose a certain population on the open subsystem ($N_{os}$). The latter is achieved by finding the root of the associated constraint $(\hat{n} - \expval{\hat{n}})$. When optimizing towards a certain population, a small asymmetry is introduced in the on-site potentials $\omega_i$, in order to facilitate the optimization procedure. All routines were implemented in-house. 
 
 \section{Results and discussion}
 \subsection{Population redistributions show the effects of Mott-Hubbard type transitions}
-The chemical potential $\mu_{os}$ induces changes in the open subsystem population $N_{os}$, which becomes increasingly stepwise as $U/t$ is increased, leading to the appearance of \emph{Mott-Hubbard plateaus} (\cref{fig:Mott-Hubbard}). The applied chemical potential determines when a given boson is exchanged between the open subsystem and its environment. While at low $U/t$-values, this process occurs continuously, the more strongle correlated the system becomes, the more discontinuous the exchange process becomes. 
+The chemical potential $\mu_{os}$ induces changes in the open subsystem population $N_{os}$, which becomes increasingly stepwise as $U/t$ is increased, leading to the appearance of \emph{Mott-Hubbard plateaus} (\cref{fig:Mott-Hubbard}). The applied chemical potential determines when a given boson is exchanged between the open subsystem and its environment. While at low $U/t$-values, this process occurs continuously, the more strongly correlated the system becomes, the more discontinuous the exchange process becomes. 
 \begin{center}
     \begin{figure}
         \includegraphics[width=\linewidth]{../code/figures/BH-3in3-NvsMu.pdf}
@@ -299,7 +300,7 @@ The chemical potential $\mu_{os}$ induces changes in the open subsystem populati
         \label{fig:Mott-Hubbard}
     \end{figure}
 \end{center}
-At high $U/t$, the Mott-plateaus restric the movement of the bosons, indicating the system has transitioned to the MI-phase. The restriction of movement is also captured by the energy (\cref{fig:energetic-plateaus}), whose function becomes stepwise with energetic jumps occuring at the same critical $\mu_{os}$ where the boson-exchange takes place.
+At high $U/t$, the Mott-plateaus restrict the movement of the bosons, indicating the system has transitioned to the MI-phase. The restriction of movement is also captured by the energy (\cref{fig:energetic-plateaus}), whose function becomes stepwise with energetic jumps occurring at the same critical $\mu_{os}$ where the boson-exchange takes place.
 \begin{center}
   \begin{figure}
       \includegraphics[width=\linewidth]{../code/figures/BH-3in3-EvsMu.pdf}
