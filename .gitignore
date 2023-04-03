@@ -27,3 +27,6 @@ notes.pdf
 
 # Mac tmp files
 .DS_Store
+
+# pycache
+*.pyc
