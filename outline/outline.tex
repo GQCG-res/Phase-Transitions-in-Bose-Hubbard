@@ -280,7 +280,7 @@ and subsequently defining the feature operator as the number operator of the ope
   \hat{m} = \sum_i^{os}\hat{n}_i \thinspace .
   \label{eq:feature}
 \end{equation}
-Combining \ref{eq:modified-hamiltonian} with \ref{eq:bose-hubbard-hamiltonian} and \ref{eq:feature} yields
+Combining \cref{eq:modified-hamiltonian} with \cref{eq:bose-hubbard-hamiltonian} and \cref{eq:feature} yields
 \begin{equation}
   \hat{H}_{mod}(\mu) = \sum_{<i,j>} t_{ij}\hat{b}_i^\dagger \hat{b}_j + \frac{1}{2}\sum_i U_i\hat{b}_i^{\dagger 2} \hat{b}_i^{2} + \sum_i \omega_i \hat{b}_i^\dagger \hat{b}_i - \sum_i^{os}\hat{n}_i \thinspace ,
 \end{equation}
@@ -288,7 +288,7 @@ where the \emph{chemical potential} $\mu$ can be tuned in order to impose a cert
 
 \section{Methodology}
 
-For the exact diagonalization (ED) calculations we look at a one-dimensional bose-Hubbard model of three sites, containing three bosons. The ED algorithm is self-implemented based on the algorithm described by Zhang and coworkers \cite{zhang2010}. $U/t$ is varied by gradually lowering the nearest neighbor hopping $t_{ij}$, evolving the system towards a more strongly correlated state. The formalism of constraints is either applied by scanning over a range of chemical potentials ($\mu_{os}$) or by optimizing the Lagrange multiplier in order to impose a certain population on the open subsystem ($N_{os}$). The latter is achieved by finding the root of the associated constraint $(\hat{n} - \expval{\hat{n}})$. When optimizing towards a certain population, a small asymmetry is introduced in the on-site potentials $\omega_i$, in order to facilitate the optimization procedure. All routines were implemented in-house. 
+For the exact diagonalization (ED) calculations we look at a one-dimensional bose-Hubbard model of three sites, in the number sector where our system contains three bosons. The ED algorithm is self-implemented based on the algorithm described by Zhang and coworkers \cite{zhang2010}. $U/t$ is varied by gradually lowering the nearest neighbor hopping $t_{ij}$, evolving the system towards a more strongly correlated state. The formalism of constraints is either applied by scanning over a range of chemical potentials ($\mu_{os}$) or by optimizing the Lagrange multiplier in order to impose a certain population on the open subsystem ($N_{os}$). The latter is achieved by finding the root of the associated constraint $(\hat{n} - \expval{\hat{n}})$. When optimizing towards a certain population, a small asymmetry is introduced in the on-site potentials $\omega_i$, in order to facilitate the optimization procedure. All routines were implemented in-house. 
 
 \section{Results and discussion}
 \subsection{Population redistributions show the effects of Mott-Hubbard type transitions}
