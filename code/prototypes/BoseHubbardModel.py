@@ -1,7 +1,8 @@
 import numpy as np
 from scipy.special import binom
 import scipy.sparse as sparse
-import Helper as h
+import scipy
+import prototypes.Helper as h
 
 
 class AdjacencyMatrix:
@@ -139,8 +140,8 @@ class ONVBasis:
 
 class BoseHubbardModel:
     def __init__(self, energy, expansion_coefficients):
-        self.energy = energy
-        self.C = expansion_coefficients
+        self.energy = energy.real
+        self.C = expansion_coefficients.real
 
     def singleParticleDensityMatrix(self):
         return np.outer(self.C, self.C.T)
@@ -154,13 +155,12 @@ class BoseHubbardSolver:
     def __init__(self, evaluated_hamiltonian: sparse):
 
         # diagonalize the Hamiltonian matrix.
-        val, C = sparse.linalg.eigs(evaluated_hamiltonian)
-
-        self.energies = np.sort(val)
+        val, C = scipy.linalg.eigh(evaluated_hamiltonian.toarray())
+        self.energies = val[0]
         self.expansion_coefficients = C
 
     def groundState(self):
-        return BoseHubbardModel(self.energies[0], self.expansion_coefficients[:, 0])
+        return BoseHubbardModel(self.energies, self.expansion_coefficients[:, 0])
 
     def excitedState(self, index):
         return BoseHubbardModel(self.energies[index], self.expansion_coefficients[:, index])
