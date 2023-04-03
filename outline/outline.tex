@@ -33,6 +33,9 @@
 \usepackage{setspace}
 \usepackage[compact]{titlesec}
 \usepackage[utf8]{inputenc}
+\usepackage{physics}
+\usepackage[mathscr]{euscript}  % \mathscr
+
 %%%Please don't disable any packages in the preamble, as this may cause the template to display incorrectly.%%%
 
 
@@ -46,6 +49,7 @@
 {\color{ugent_blue}\thesection}{1em}{}
 
 \usepackage[colorlinks=true,linkcolor=black,citecolor=ugent_blue]{hyperref}
+\usepackage{cleveref}
 
 \usepackage{lineno}
 \linenumbers
@@ -141,10 +145,10 @@
 \sffamily
 \begin{tabular}{m{4.5cm} p{13.5cm} }
 
-& \noindent\LARGE{\textbf{This is the title$^\dag$}} \\%Article title goes here instead of the text "This is the title"
+& \noindent\LARGE{\textbf{Phase transitions in the Bose-Hubbard model$^\dag$}} \\%Article title goes here instead of the text "This is the title"
 \vspace{0.3cm} & \vspace{0.3cm} \\
 
-& \noindent\large{Full Name,$^{\ast}$\textit{$^{a}$} Full Name,\textit{$^{b\ddag}$} and Full Name\textit{$^{a}$}} \\%Author names go here instead of "Full name", etc.
+& \noindent\large{Xeno De Vriendt\textit{$^{a}$}} \\%Author names go here instead of "Full name", etc.
 
 & \\
 
@@ -167,7 +171,7 @@
 % %%%FOOTNOTES%%%
 
 \footnotetext{\textit{$^{a}$~Department of Chemistry, Ghent University, Krijgslaan 281 (S3), B-9000 Ghent, Belgium}}
-\footnotetext{\textit{$^{b}$~Corresponding author:} \texttt{firstname.lastname@ugent.be}}
+\footnotetext{\textit{$^{b}$~Department of Physics and Astronomy, Ghent University, Krijgslaan 281 (S9), B-9000 Ghent, Belgium}}
 
 % %Please use \dag to cite the ESI in the main text of the article.
 % %If you article does not have ESI please remove the the \dag symbol from the title and the footnotetext below.
@@ -184,75 +188,147 @@
 
 \section{Introduction}
 
-Central ideas: Why did I do the work? What were the central motivations and hypotheses?
+The Bose-Hubbard model provides an excellent testbench to study quantum phase transitions (QPTs) \cite{sachdev1999} of strongly interacting bosonic systems in one \cite{kuhner1998} as well as higher dimensions \cite{freericks1994}. Due to the fundamental algebra underlying the physics of bosonic systems, the phase diagram of the bose-Hubbard model becomes more rich than that of its fermionic counterpart \cite{gu2004, deng2006, cozzini2007, chung2021, devriendt2022}. 
 
-The first paragraph or two should be written out completely. Pay particular attention to the opening sentence. Ideally, it should state concisely the objective of the work, and indicate why this objective is important.
-In general, the Introduction should have these elements: 
+Of particular interest is the Mott-Hubbard transition \cite{mott1949}, which in the bosonic model encapsulates a quantum phase transition from a superfluid to a Mott-insulator (MI) \cite{elstner1999, capello2007, cucchietti2007}. In one dimension, this yransition agrees with the Berezinskii-Kosterlitz-Thouless (BKT) \cite{kosterlitz1973} scenario of the interaction-driven Mott transition.
 
 \begin{itemize}
-    \item The objectives of the work. 
-    \item The justification for these objectives: Why is the work important? Cite the most important works \cite{whitesides2004a}.
-    \item Background: Who else has done what? How? What have we done previously?
-    \item Guidance to the reader: What should the reader watch for in the paper? What are the interesting high points? What strategy did we use?
-    \item Summary/conclusion: What should the reader expect as conclusion? In advanced versions of the outline, you should also include all the sections that will go in the Experimental section (at the level of paragraph subheadings) and indicate what information will go in the Microfilm section.
+    \item In this work we will aim to model the occuring phase transitions in the bosonic Hubbard model. This can be done by means of constrained wavefunction theory, but different approaches will be studied simultaneously.
+    \item By doing so we will be able to gain a deeper understanding of the occuring quantum phase transitions, especially the superfluid-MI BKT transition.
+    \item Comparison between results from an exact diagonalization approach \cite{zhang2010} and a matrix-product-state (MPS) \cite{perez2006} approach can lead to insights in where the limits of both approaches lie.
+    \item Entanglement studies and quantum information theory principles can be applied in order to further characterise the obtained QPTs.
 \end{itemize}
 
 \section{Theory}
+\subsection{The bose-Hubbard model}
+The bose-Hubbard model Hamiltonian can be defined in an abstract site basis consisting of $L$ sites, allowing for intersite hopping between nearest neighbours only, while introducoing a site-dependent on-site repulsion that penalizes multiple occupation on a single site
+\begin{equation}
+  \hat{H} = \sum_{<i,j>} t_{ij}\hat{b}_i^\dagger \hat{b}_j + \frac{1}{2}\sum_i U_i\hat{b}_i^{\dagger 2} \hat{b}_i^{2} \thinspace ,
+\end{equation}
+where $t_{ij}$ is the hopping parameter which only affects nearest neighbours $<i,j>$, $U_i$ is the on-site energetic penalty and $\hat{b}^\dagger$ and $\hat{b}$ are the bosonic creation and annihilation operators respectively, which satisfy the bosonic commutation rules. Oftentimes a site-specific on-site potential is added to this model to allow for the introduction of asymmetry between the sites
+\begin{equation}
+  \hat{H} = \sum_{<i,j>} t_{ij}\hat{b}_i^\dagger \hat{b}_j + \frac{1}{2}\sum_i U_i\hat{b}_i^{\dagger 2} \hat{b}_i^{2} + \sum_i \omega_i \hat{b}_i^\dagger \hat{b}_i \thinspace .
+  \label{eq:bose-hubbard-hamiltonian}
+\end{equation}
+Since the Hubbard Hamiltonian commutes with the total number operator $\hat{n}_i$
+\begin{align}
+  \hat{n}_i = \hat{b}_i^\dagger \hat{b}_i \thinspace &, \\
+  [\hat{H}, \hat{n}_i] = 0 \thinspace &,
+\end{align}
+the eigenstates of the Hamiltonian can be expanded in the orthonormal basis spanned by the eigenstates of the number operator
+\begin{equation}
+    \ket{\Psi}=\sum_{n_{1}\dots n_{L\alpha}} 
+    \Psi^{n_{1} \ldots n_{L}}
+    \ket{n_{1}\dots n_{L}} 
+    \thinspace ,
+    \label{theory:eigenstate}
+\end{equation}
+with $\Psi^{n_{1} \ldots n_{L}}$ the expansion coefficient belonging to a basis state $\ket{n_{1}\dots n_{L}}$ over $L$ sites.
 
-Optional section where you explain any theoretical constructs. In preliminary outline phases, this can be reduced to a set of essential equations.
+\subsection{Population redistributions on the bose-Hubbard model}
+As shown in literature \cite{devriendt2021, devriendt2022}, we can redistribute particles within our system by iomposing constraints through a Lagrangian formalism \cite{mukherji1963, zeiss1983, kaduk2011}
+\begin{equation}
+  \mathscr{L}(\vb{p}, \mu)
+        = E_{tot}(\vb{p})
+        - \mu ( m(\vb{p}) - M )
+        \thinspace ,
+\end{equation} 
+where $m(\vb{p})$ is the value of the feature operator at the model parameters $\vb{p}$ and $M$ is the target value for the feature operator. The stationary condition of the Lagrange multiplier $\mu$ yields the value of the defined feature operator, and the stationary conditions of the model parameters $\vb{p}$ can be written as
+\begin{equation}
+  \eval{
+    \pdv{
+        \mathscr{L}(\vb{p}, \mu)
+    }{p_i}
+}_{\mu^\star, \thinspace \vb{p}^\star}
+= \eval{
+    \pdv{
+        E_{tot}(\vb{p})
+    }{p_i}
+}_{\vb{p}^\star}
+- \mu^\star \qty( 
+    \eval{
+        \pdv{
+            m(\vb{p})
+        }{p_i}
+    }_{\vb{p}^\star}
+)
+= 0
+\thinspace .
+\label{eq:stationary_condition_model_parameters}
+\end{equation}
+Using these stationary conditions we can derive a modified Hamiltonian $\hat{H}_{mod}(\mu)$ where the feature operator $\hat{m}$ is weighed by the value of the Lagrange multiplier
+\begin{equation}
+  \hat{H}_{mod}(\mu) = \hat{H} - \mu \hat{m} \thinspace .
+  \label{eq:modified-hamiltonian}
+\end{equation}
+It is important yto note that, while the modified Hamiltonian is suited to optimize the model parameters of the wave function in such a way that the stationary condition of the Lagrange multiplier is satisfied, the energy of the system needs to be calculated using the original Hamiltonian of the system. This can be acieved by correcting for the imposed feature
+\begin{align}
+  \begin{split}
+    E_{tot}(\vb{p}^\star)
+    &= \ev*{\hat{H}}{\Psi(\vb{p}^\star)} \\ 
+    &= \ev*{\hat{H}_{\text{mod}} + \mu\hat{m}}{\Psi(\vb{p}^\star)}
+    \thinspace .
+  \end{split}
+\end{align}
+In the context of the bose-Hubbard model, we will construct a feature operator with the goal of imposing bosonic redistributions on our model system. This can be done by arbitrarily dividing the total lattice into an \emph{open subsystem} $\Omega_{os}$ and an \emph{environment} $\omega_{env}$
+\begin{equation}
+  \Omega = (\Omega_{os}, \Omega_{env}) \thinspace ,
+\end{equation} 
+and subsequently defining the feature operator as the number operator of the open subsystem
+\begin{equation}
+  \hat{m} = \sum_i^{os}\hat{n}_i \thinspace .
+  \label{eq:feature}
+\end{equation}
+Combining \ref{eq:modified-hamiltonian} with \ref{eq:bose-hubbard-hamiltonian} and \ref{eq:feature} yields
+\begin{equation}
+  \hat{H}_{mod}(\mu) = \sum_{<i,j>} t_{ij}\hat{b}_i^\dagger \hat{b}_j + \frac{1}{2}\sum_i U_i\hat{b}_i^{\dagger 2} \hat{b}_i^{2} + \sum_i \omega_i \hat{b}_i^\dagger \hat{b}_i - \sum_i^{os}\hat{n}_i \thinspace ,
+\end{equation}
+where the \emph{chemical potential} $\mu$ can be tuned in order to impose a certain redistribution of bosons between the open subsystem and the environment.
 
 \section{Methodology}
 
-How were methods/descriptors implemented and characterized? Which systems are of interest for this hypothesis?
+For the exact diagonalization (ED) calculations we look at a one-dimensional bose-Hubbard model of three sites, containing three bosons. The ED algorithm is self-implemented based on the algorithm described by Zhang and coworkers \cite{zhang2010}. $U/t$ is varied by gradually lowering the nearest neighbour hopping $t_{ij}$, evolving the system towards a more strongly correlated state. The formalism of constraints is either applied by scanning over a range of chemical potentials ($\mu_{os}$) or by optimizing the Lagrange multiplier in order to impose a certain population on the open subsystem ($N_{os}$). The latter is achieved by finding the root of the associated constraint $(\hat{n} - \expval{\hat{n}})$. When optimizing towards a certain population, a small asymmetry is introduced in the on-site potentials $\omega_i$, in order to facilitate the optimization procedure. All routines were implemented in-house. 
 
 \section{Results and discussion}
-
-Central ideas: What were the results? Organize the outline and the paper around easily assimilated data - tables, equations, figures, schemes - rather than around text. Organize in order of importance, not in chronological order.
-
-The results and discussion are usually combined. This section should be organized according to major topics. The separate parts should have subheadings in boldface to make this organization clear, and to help the reader scan through the final text to find the parts of interest. The following list includes examples of phrases that might plausibly serve as section headings:
-\begin{itemize}
-    \item Absolute Configuration of the Vicinal Diol Unit Hysteresis Correlates with Roughness of the Surface Dependence of the Rate Constant on Temperature
-    \item The Rate of Self-Exchange Decreases with the Polarity of the Solvent
-\end{itemize}
-Try to make these section headings as specific and information-rich as possible. For example, the phrase ``The Rate of Self-Exchange Decreases with The Polarity of The Solvent" is obviously longer than ``Measurement of Rates", but much more useful to the reader.
-
-In general, try to cover the major common points:
-\begin{itemize}
-    \item Method implementation
-    \item Method characterization
-    \item System characterization
-    \item Results
-\end{itemize}
-In the outline, do not write any significant amount of text, but get all the data in their proper place: Any text should simply indicate what will go in that section.
-\begin{itemize}
-    \item Section Headings
-    \item Figures (with captions)
-    \item Schemes (with captions and footnotes) 
-    \item Equations
-    \item Tables (correctly formatted)
-\end{itemize}
-Remember to think of a paper as a collection of computational results, summarized as clearly and economically as possible in figures, tables, equations, and schemes. The text in the paper serves just to explain the data, and is secondary. The more information can be compressed into tables, equations, etc., the shorter and more readable the paper will be. If you do not yet have the relevant figures, use placeholders, such as in figure \ref{fig:my_label}.
-
+\subsection{Population redistributions show the effects of Mott-Hubbard type transitions}
+The chemical potential $\mu_{os}$ induces changes in the open subsystem population $N_{os}$, which becomes increasingly stepwise as $U/t$ is increased, leading to the appearance of \emph{Mott-Hubbard plateaus} (\cref{fig:Mott-Hubbard}). The applied chemical potential determines when a given boson is exchanged between the open subsystem and its environment. While at low $U/t$-values, this process occurs continuously, the more strongle correlated the system becomes, the more discontinuous the exchange process becomes. 
 \begin{center}
     \begin{figure}
-        \includegraphics[width=\linewidth]{example-image}
-        \caption{Interpretation of figures goes here. First focus on improving the readability of the figures, then on the captions.}
-        \label{fig:my_label}
+        \includegraphics[width=\linewidth]{../code/figures/BH-3in3-NvsMu.pdf}
+        \caption{Mott-Hubbard plateaus represented as the total open system population as a function of the applied chemical potential to the open subsystem for different values of $t_{ij}$.}
+        \label{fig:Mott-Hubbard}
     \end{figure}
+\end{center}
+At high $U/t$, the Mott-plateaus restric the movement of the bosons, indicating the system has transitioned to the MI-phase. The restriction of movement is also captured by the energy (\cref{fig:energetic-plateaus}), whose function becomes stepwise with energetic jumps occuring at the same critical $\mu_{os}$ where the boson-exchange takes place.
+\begin{center}
+  \begin{figure}
+      \includegraphics[width=\linewidth]{../code/figures/BH-3in3-EvsMu.pdf}
+      \caption{Energetic Mott-Hubbard plateaus represented as a function of the applied chemical potential to the open subsystem for different values of $t_{ij}$.}
+      \label{fig:energetic-plateaus}
+  \end{figure}
+\end{center}
+The dual viewpoint which we can associate with these Mott-Hubbard plateaus is given by the energetic flat-planes \cite{perdew1982, cohen2008, cohen2012, yang2016}, where the total energy of the system ($E_{tot}$) becomes a series of straight line segments with discontinuities located at integer occupations (\cref{fig:flat-planes}). While previous results showed these characteristics for fermionic systems \cite{devriendt2021, devriendt2022}, we now show the same for the bosonic case.
+\begin{center}
+  \begin{figure}
+      \includegraphics[width=\linewidth]{../code/figures/BH-3in3-EvsN.pdf}
+      \caption{Energetic flat-planes represented by $E_{tot}$ as a function of the population of the open subsystem ($N_{os}$) for different values of $t_{ij}$.}
+      \label{fig:flat-planes}
+  \end{figure}
 \end{center}
 
 \section{Conclusions}
 
-Central ideas: What does it all mean? What hypotheses were proved or disproved? What did I learn? Why does it make a difference?
-
-In the outline, summarize the conclusions of the paper as a list of short phrases or sentences. Do not repeat what is in the Results section, unless special emphasis is needed. The Conclusions section should be just that, and not a summary. It should add a new, higher level of analysis, and should indicate explicitly the significance of the work.
-
-\section*{Acknowledgements}
-
 \begin{itemize}
-  \item FWO, BOF 
-  \item HPC 
+  \item The bosonic Hubbard model shows identical characteristics to Fermi-Hubbard with the exception that multiple Mott-Hubbard plateaus arise, due to the absence of the fermionic occupation limit (i.e. Pauli's exclusion principle).
+  \item The Bose Hubbard model also adheres to the flat-plane conditions as described by Perdew \cite{perdew1982}.
 \end{itemize}
+
+% \section*{Acknowledgements}
+
+% \begin{itemize}
+%   \item FWO, BOF 
+%   \item HPC 
+% \end{itemize}
 
 %%%END OF MAIN TEXT%%%
 
