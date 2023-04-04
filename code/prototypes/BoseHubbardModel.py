@@ -155,7 +155,7 @@ class BoseHubbardSolver:
     def __init__(self, evaluated_hamiltonian: sparse):
 
         # diagonalize the Hamiltonian matrix.
-        val, C = scipy.linalg.eigh(evaluated_hamiltonian.toarray())
+        val, C = sparse.linalg.eigsh(evaluated_hamiltonian)
         self.energies = val[0]
         self.expansion_coefficients = C
 
