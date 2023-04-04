@@ -1,6 +1,7 @@
 import numpy as np
 from scipy.special import binom
 import scipy.sparse as sparse
+import scipy.sparse.linalg
 import scipy
 import prototypes.Helper as h
 
@@ -147,7 +148,7 @@ class BoseHubbardModel:
         return np.outer(self.C, self.C.T)
 
     def calculateExpectationValue(self, operator):
-        return np.einsum("pq, pq->", self.singleParticleDensityMatrix(), operator)
+        return self.C.T.dot(operator.dot(self.C))
 
 
 class BoseHubbardSolver:
