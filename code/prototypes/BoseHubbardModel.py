@@ -4,6 +4,7 @@ import scipy.sparse as sparse
 import scipy.sparse.linalg
 import scipy
 import prototypes.Helper as h
+import copy
 
 
 class AdjacencyMatrix:
@@ -46,7 +47,7 @@ class BoseHubbardHamiltonian:
             adjacency_matrix = AdjacencyMatrix(self.sites).withoutPeriodicBoundaryConditions()
 
         if len(on_site_potentials) > number_of_sites or len(on_site_potentials) < number_of_sites:
-            raise "The number of specified on-site potentials has to be equal to the number of sites."
+            raise Exception("The number of specified on-site potentials has to be equal to the number of sites.")
 
         self.site_potentials = on_site_potentials
         self.hopping_matrix = hopping * adjacency_matrix
@@ -55,9 +56,14 @@ class BoseHubbardHamiltonian:
 
 class ONVBasis:
 
-    def __init__(self, number_of_sites:int, number_of_bosons: int):
+    def __init__(self, number_of_sites:int, number_of_bosons: int, boson_limit=None):
         self.sites = number_of_sites
         self.bosons = number_of_bosons
+
+        if boson_limit:
+            self.boson_limit = boson_limit
+        else:
+            self.boson_limit = number_of_bosons
 
         # Number of possible ONVs is defined as a binomial expansion.
         self.size = int(binom( self.bosons+ self.sites-1,  self.bosons))
@@ -77,8 +83,14 @@ class ONVBasis:
                     ni = np.nonzero(states[i, : self.sites-1])[0][-1]
             else:
                 ni += 1
+        # If you impose a limit to the number of bosons, we reduce the ONV basis accordingly.
+        states = np.delete(states, np.where(states>self.boson_limit)[0], axis=0)
 
         self.ONVs = states
+        
+        # If basis states are removed, we need to adjust the size of the basis.
+        if self.size != np.shape(self.ONVs)[0]:
+            self.size = np.shape(self.ONVs)[0]
 
 
     def _stateIndex(self, state):
@@ -91,7 +103,7 @@ class ONVBasis:
 
     def evaluateHamiltonian(self, H: BoseHubbardHamiltonian):
         # evaluate the onsite part of the Hamiltonian.
-        # We do minus U/2 since otherwise the evaluation of U in the basis counts certain elemnts double. (U * n_i(n_i - 1))
+        # We do minus U/2 since otherwise the evaluation of U in the basis counts certain elements double. (U * n_i(n_i - 1))
         onsite = self.ONVs.dot(np.array(H.site_potentials) - H.U/2)
 
         # evaluate the on-site repulsion part of the Hamiltonian.
@@ -119,14 +131,29 @@ class ONVBasis:
                 nstates[:, i] -= 1  # remove one element
                 nstates[:, l] += 1  # add it here
 
-                ks[k*nj:(k+1)*nj] = self._stateIndex(nstates)  # the new states
-                vs[k*nj:(k+1)*nj] = H.hopping_matrix[i, l]*np.sqrt(self.ONVs[js, i]*(self.ONVs[js, l] + 1))
+                # Check whether illegal hoppings are happening and remove them.
+                # Keep track of which states that are removed as well as the amount of removed states.
+                nstates_minus_blocked = np.delete(nstates, np.where(nstates>self.boson_limit)[0], axis=0)
+                removed_states = np.where(nstates>self.boson_limit)[0]
+                n_removed_states = np.shape(nstates)[0] - np.shape(nstates_minus_blocked)[0]
+
+                # And correct the dimensions where necessary.
+                # Be sure to copy so that the same state is never counted twice.
+                js_c = copy.deepcopy(js)
+                nj_c = copy.deepcopy(nj)
+                if n_removed_states > 0:
+                    nj_c = nj_c - n_removed_states
+                    js_c = np.delete(js_c, removed_states)              
+
+                ks[k*nj_c:(k+1)*nj_c] = self._stateIndex(nstates_minus_blocked)  # the new states
+                vs[k*nj_c:(k+1)*nj_c] = H.hopping_matrix[i, l]*np.sqrt(self.ONVs[js_c, i]*(self.ONVs[js_c, l] + 1))
 
             Ht_i += np.tile(js, nl).tolist()
             Ht_j += ks.tolist()
             Ht_values += vs.tolist()
 
         return sparse.coo_matrix((Ht_values, (Ht_i, Ht_j)), shape=(self.size, self.size)).tocsr() + sparse.coo_matrix((onsite+onsite_repulsion, (H_ii, H_ii)), shape=(self.size, self.size)).tocsr()
+
 
     def evaluateDiagonalOperator(self, operator, sparse_rep=True):
         # Any diagonal operator can be evaluated the same way as the on-site part of the Hamiltonian.
