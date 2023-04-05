@@ -156,18 +156,19 @@ class BoseHubbardModel:
 
 class BoseHubbardSolver:
 
-    def __init__(self, evaluated_hamiltonian: sparse, sparse_rep=False):
+    def __init__(self, evaluated_hamiltonian: sparse, sparse_rep=False, nr_excited_states=0):
 
         # diagonalize the Hamiltonian matrix.
         if sparse_rep:
-            val, C = sparse.linalg.eigsh(evaluated_hamiltonian)
+            val, C = sparse.linalg.eigsh(evaluated_hamiltonian, nr_excited_states + 1, which='SA')
         else:
             val, C = scipy.linalg.eigh(evaluated_hamiltonian.toarray())
-        self.energies = val[0]
+        
+        self.energies = val
         self.expansion_coefficients = C
 
     def groundState(self):
-        return BoseHubbardModel(self.energies, self.expansion_coefficients[:, 0])
+        return BoseHubbardModel(self.energies[0], self.expansion_coefficients[:, 0])
 
     def excitedState(self, index):
         return BoseHubbardModel(self.energies[index], self.expansion_coefficients[:, index])
