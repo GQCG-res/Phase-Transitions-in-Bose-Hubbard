@@ -128,12 +128,12 @@ class ONVBasis:
 
         return sparse.coo_matrix((Ht_values, (Ht_i, Ht_j)), shape=(self.size, self.size)).tocsr() + sparse.coo_matrix((onsite+onsite_repulsion, (H_ii, H_ii)), shape=(self.size, self.size)).tocsr()
 
-    def evaluateDiagonalOperator(self, operator, sparse_representation=True):
+    def evaluateDiagonalOperator(self, operator, sparse_rep=True):
         # Any diagonal operator can be evaluated the same way as the on-site part of the Hamiltonian.
         diagonal = np.diag(operator)
         evaluated_operator = self.ONVs.dot(diagonal)
         diagonal_indices = np.arange(self.size)
-        if sparse_representation:
+        if sparse_rep:
             return sparse.coo_matrix((evaluated_operator, (diagonal_indices, diagonal_indices)), shape=(self.size, self.size)).tocsr()
         else:
             return sparse.coo_matrix((evaluated_operator, (diagonal_indices, diagonal_indices)), shape=(self.size, self.size)).tocsr().toarray()
@@ -147,16 +147,22 @@ class BoseHubbardModel:
     def singleParticleDensityMatrix(self):
         return np.outer(self.C, self.C.T)
 
-    def calculateExpectationValue(self, operator):
-        return self.C.T.dot(operator.dot(self.C))
+    def calculateExpectationValue(self, operator, sparse_rep=False):
+        if sparse_rep:
+            return self.C.T.dot(operator.dot(self.C))
+        else:
+            return np.einsum("pq, pq->", self.singleParticleDensityMatrix(), operator)
 
 
 class BoseHubbardSolver:
 
-    def __init__(self, evaluated_hamiltonian: sparse):
+    def __init__(self, evaluated_hamiltonian: sparse, sparse_rep=False):
 
         # diagonalize the Hamiltonian matrix.
-        val, C = sparse.linalg.eigsh(evaluated_hamiltonian)
+        if sparse_rep:
+            val, C = sparse.linalg.eigsh(evaluated_hamiltonian)
+        else:
+            val, C = scipy.linalg.eigh(evaluated_hamiltonian.toarray())
         self.energies = val[0]
         self.expansion_coefficients = C
 
