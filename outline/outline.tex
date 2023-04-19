@@ -148,7 +148,7 @@
 & \noindent\LARGE{\textbf{Phase transitions in the Bose-Hubbard model$^\dag$}} \\%Article title goes here instead of the text "This is the title"
 \vspace{0.3cm} & \vspace{0.3cm} \\
 
-& \noindent\large{Xeno De Vriendt\textit{$^{a}$}} \\%Author names go here instead of "Full name", etc.
+& \noindent\large{Xeno De Vriendt\textit{$^{a}$}, Robbe Brants\textit{$^{b}$}} \\%Author names go here instead of "Full name", etc.
 
 & \\
 
@@ -226,6 +226,18 @@ the eigenstates of the Hamiltonian can be expanded in the orthonormal basis span
 \end{equation}
 with $\Psi^{n_{1} \ldots n_{L}}$ the expansion coefficient belonging to a basis state $\ket{n_{1}\dots n_{L}}$ over $L$ sites.
 
+\subsection{ground state properties of the Bose Hubbard model}
+Single particle excitations in the groundstate of the Bose-Hubbard model can be defined as the difference between the potentials for half band filling and one particle less than half band filling
+\begin{align}
+  \mu^+(L) &= E_0(L, N+1) - E_0(L, N) \thinspace ,\\
+  \mu^-(L) &= E_0(L, N) - E_0(L, N-1) \thinspace ,
+\end{align}
+with $E_0(X, Y)$ representing the groundstate energy of the system containing $X$ sites and $Y$ bosons. The excitation gap is then subsequently defined as their difference
+\begin{equation}
+  \Delta(L) = \mu^+(L) - \mu^-(L) \thinspace .
+  \label{eq:gap}
+\end{equation}
+
 \subsection{Population redistributions on the bose-Hubbard model}
 As shown in literature \cite{devriendt2021, devriendt2022}, we can redistribute particles within our system by imposing constraints through a Lagrangian formalism \cite{mukherji1963, zeiss1983, kaduk2011}
 \begin{equation}
@@ -288,7 +300,7 @@ where the \emph{chemical potential} $\mu$ can be tuned in order to impose a cert
 
 \section{Methodology}
 
-For the exact diagonalization (ED) calculations we look at a one-dimensional bose-Hubbard model of three sites, in the number sector where our system contains three bosons. The ED algorithm is self-implemented based on the algorithm described by Zhang and coworkers \cite{zhang2010}. $U/t$ is varied by gradually lowering the nearest neighbor hopping $t_{ij}$, evolving the system towards a more strongly correlated state. The formalism of constraints is either applied by scanning over a range of chemical potentials ($\mu_{os}$) or by optimizing the Lagrange multiplier in order to impose a certain population on the open subsystem ($N_{os}$). The latter is achieved by finding the root of the associated constraint $(\hat{n} - \expval{\hat{n}})$. When optimizing towards a certain population, a small asymmetry is introduced in the on-site potentials $\omega_i$, in order to facilitate the optimization procedure. All routines were implemented in-house. 
+For the exact diagonalization (ED) calculations we look at a one-dimensional bose-Hubbard model of three sites, in the number sector where our system contains three bosons. The ED algorithm is self-implemented based on the algorithm described by Zhang and coworkers \cite{zhang2010}. $U/t$ is varied by gradually lowering the nearest neighbor hopping $t_{ij}$, evolving the system towards a more strongly correlated state. The formalism of constraints is either applied by scanning over a range of chemical potentials ($\mu_{os}$) or by optimizing the Lagrange multiplier in order to impose a certain population on the open subsystem ($N_{os}$). The latter is achieved by finding the root of the associated constraint $(\hat{n} - \expval{\hat{n}})$. When optimizing towards a certain population, a small asymmetry is introduced in the on-site potentials $\omega_i$, in order to facilitate the optimization procedure. For larger systems, the ITensors package \cite{Fishman2022} density matrix renormalization group (DMRG) algorithm was used.
 
 \section{Results and discussion}
 \subsection{Population redistributions show the effects of Mott-Hubbard type transitions}
@@ -316,6 +328,18 @@ The dual viewpoint which we can associate with these Mott-Hubbard plateaus is gi
       \label{fig:flat-planes}
   \end{figure}
 \end{center}
+
+\subsection{DMRG can model the complete groundstate Bose-Hubbard phase diagram}
+
+At integer filling of the sites ($\rho=\frac{N}{L}$) the one-dimensional Bose-Hubbard model describes a Mott transition (\cref{fig:Mott-Lobes}) between a so-called superfluid phase which is defined by a divergence of the momentum distribution at momentum $k$ equal to zero, and an MI phase, characterized by a finite gap for single particle excitations, defined by the difference between the potentials for half band filling and one particle less than half band filling (\cref{eq:gap}).
+\begin{center}
+  \begin{figure}
+      \includegraphics[width=\linewidth]{../code/figures/Mott-Lobes.pdf}
+      \caption{The first three Mott Lobes of the ground state Bose-Hubbard model. Colored sections represent the MI phases, while sections outside of the boundaries represent the superfluid phase. Calculated for $L=128$ using the DMRG algorithm.}
+      \label{fig:Mott-Lobes}
+  \end{figure}
+\end{center}
+At the critical point, i.e. the tip of each Mott lobe, the model resides in the universality class of the XY-spin model, which indicates the presence of a BKT phase transition.
 
 \section{Conclusions}
 

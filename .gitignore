@@ -24,6 +24,7 @@ notes.pdf
 *.pdf
 *.nav
 *.snm
+*.toml
 
 # Mac tmp files
 .DS_Store
