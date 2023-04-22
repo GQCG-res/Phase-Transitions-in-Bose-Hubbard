@@ -341,6 +341,16 @@ At integer filling of the sites ($\rho=\frac{N}{L}$) the one-dimensional Bose-Hu
 \end{center}
 At the critical point, i.e. the tip of each Mott lobe, the model resides in the universality class of the XY-spin model, which indicates the presence of a BKT phase transition.
 
+Exact diagonalization was also used to model this behavior. Due to the limitations of the exponential scaling however, a small number of sites and particles was used. The first three Mott-Lobes for $L=6$ (\cref{fig:Mott-Lobes-ED}) are unable to describe a critical value $(t/U)_c$ where the gap $\Delta(L)$ closes.
+\begin{center}
+  \begin{figure}
+      \includegraphics[width=\linewidth]{../code/figures/Mott-Lobes-ED.pdf}
+      \caption{The first three Mott Lobes of the ground state Bose-Hubbard model. Colored sections represent the MI phases, while sections outside of the boundaries represent the superfluid phase. Calculated for $L=6$ using ED.}
+      \label{fig:Mott-Lobes-ED}
+  \end{figure}
+\end{center}
+The absence of a critical point indicates that small finite models do not undergo a BKT phase transition and as such, cannot be characterized ibn the same universality class.
+
 \section{Conclusions}
 
 \begin{itemize}
