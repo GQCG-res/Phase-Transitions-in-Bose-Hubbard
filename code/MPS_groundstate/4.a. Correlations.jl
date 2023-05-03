@@ -25,9 +25,9 @@ function correlation_function(t::Float64, U::Float64, μ::Float64, L::Int; perio
     return cor
 end
 
-function density_function(t::Float64, U::Float64, μ::Float64, L::Int; impurity_value::Float64=0.0, impurity_site::Int=1, periodic::Bool=false, sweeps::Int=4, output::Bool=true, impurity::Bool=false)
+function density_function(t::Float64, U::Float64, μ::Float64, L::Int; impurity_values::Array{Float64}=[0.0], impurity_sites::Array{Int}=[1], periodic::Bool=false, sweeps::Int=4, output::Bool=true, impurity::Bool=false)
 
-    Hamiltonian, site_type = boseHubbardHamiltonian(t, U, μ, L; impurity_value=impurity_value, impurity_site=impurity_site, periodic_boundary=periodic, impurity=impurity)
+    Hamiltonian, site_type = boseHubbardHamiltonian(t, U, μ, L; impurity_values=impurity_values, impurity_sites=impurity_sites, periodic_boundary=periodic, impurity=impurity)
     state = fill("1", L)
     psi0 = randomMPS(site_type, state)
 
