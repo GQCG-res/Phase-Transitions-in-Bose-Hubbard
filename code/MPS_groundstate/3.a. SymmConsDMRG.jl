@@ -1,6 +1,6 @@
 using ITensors, TensorKit, TensorOperations
 
-function boseHubbardHamiltonian(t::Float64, U::Float64, μ::Float64, L::Int; periodic_boundary::Bool=true)
+function boseHubbardHamiltonian(t::Float64, U::Float64, μ::Float64, L::Int; impurity_values::Array{Float64}=[0.0], impurity_sites::Array{Int}=[0], periodic_boundary::Bool=true, impurity::Bool=false)
     # Define the type of sites needed for the calculation.
     sites = siteinds("Qudit",L; dim=5,  conserve_qns=true, conserve_number=true)
 
@@ -19,6 +19,12 @@ function boseHubbardHamiltonian(t::Float64, U::Float64, μ::Float64, L::Int; per
     if periodic_boundary
         H += -t, "a", 1, "adag", L
         H += -t, "adag", 1, "a", L
+    end
+
+    if impurity
+        for (value, site) in zip(impurity_values, impurity_sites) 
+            H += -value, "n", site
+        end
     end
     
     # Transform to an MPO Hamiltonian.
