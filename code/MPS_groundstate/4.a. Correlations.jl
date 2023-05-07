@@ -2,16 +2,14 @@ include("3.a. SymmConsDMRG.jl")
 
 using CurveFit
 
-function correlation_function(t::Float64, U::Float64, μ::Float64, L::Int; periodic::Bool=false, sweeps::Int=4, output::Bool=true)
+function correlation_function(t::Float64, U::Float64, μ::Float64, L::Int; periodic::Bool=false, sweeps::Int=100, bond_dim::Int=1024, convergence::Float64=1e-4, output::Bool=true)
 
     Hamiltonian, site_type = boseHubbardHamiltonian(t, U, μ, L; periodic_boundary=periodic)
     state = fill("1", L)
     psi0 = randomMPS(site_type, state)
 
-    bond_dim = [32 * 2^i for i in 1:sweeps]
-
     # calculate the ground state
-    psi = dmrg(Hamiltonian, psi0; nsweeps=sweeps, maxdim=bond_dim, cutoff=1e-14, outputlevel=output ? 1 : 0)[2]
+    psi = dmrg(Hamiltonian, psi0; nsweeps=sweeps, maxdim=bond_dim, cutoff=1e-15, observer=DMRGObserver(;energy_tol=convergence), outputlevel=output ? 1 : 0)[2]
 
     # calculate correlation matrix Cij between points i and j
     C = correlation_matrix(psi, "adag", "a")
@@ -19,8 +17,8 @@ function correlation_function(t::Float64, U::Float64, μ::Float64, L::Int; perio
     if periodic
         cor = C[1, 1:(L ÷ 2 - 1)]
     else
-        # get rid of most of the boundary effects by removing 10 sites at each end
-        cor = C[10, 10:end-10]
+        # get rid of most of the boundary effects by removing 20 sites at each end
+        cor = C[20, 20:end-20]
     end
     return cor
 end
