@@ -2,7 +2,7 @@ include("3.a. SymmConsDMRG.jl")
 
 using CurveFit
 
-function correlation_function(t::Float64, U::Float64, μ::Float64, L::Int; periodic::Bool=false, sweeps::Int=100, bond_dim::Int=1024, convergence::Float64=1e-4, output::Bool=true)
+function correlation_function(t::Float64, U::Float64, μ::Float64, L::Int; periodic::Bool=false, sweeps::Int=100, bond_dim::Int=128, convergence::Float64=1e-6, output::Bool=true)
 
     Hamiltonian, site_type = boseHubbardHamiltonian(t, U, μ, L; periodic_boundary=periodic)
     state = fill("1", L)
@@ -17,21 +17,20 @@ function correlation_function(t::Float64, U::Float64, μ::Float64, L::Int; perio
     if periodic
         cor = C[1, 1:(L ÷ 2 - 1)]
     else
-        # get rid of most of the boundary effects by removing 20 sites at each end
-        cor = C[20, 20:end-20]
+        # get rid of most of the boundary effects by removing 10 sites at each end
+        cor = C[10, 10:end-10]
     end
     return cor
 end
 
-function density_function(t::Float64, U::Float64, μ::Float64, L::Int; impurity_values::Array{Float64}=[0.0], impurity_sites::Array{Int}=[1], periodic::Bool=false, sweeps::Int=4, output::Bool=true, impurity::Bool=false)
+function density_function(t::Float64, U::Float64, μ::Float64, L::Int; periodic::Bool=false, sweeps::Int=100, bond_dim::Int=128, convergence::Float64=1e-4, output::Bool=true,
+                          impurity_values::Array{Float64}=[0.0], impurity_sites::Array{Int}=[1], impurity::Bool=false)
 
     Hamiltonian, site_type = boseHubbardHamiltonian(t, U, μ, L; impurity_values=impurity_values, impurity_sites=impurity_sites, periodic_boundary=periodic, impurity=impurity)
     state = fill("1", L)
     psi0 = randomMPS(site_type, state)
 
-    bond_dim = [32 * 2^i for i in 1:sweeps]
-
-    psi = dmrg(Hamiltonian, psi0; nsweeps=sweeps, maxdim=bond_dim, cutoff=1e-14, outputlevel=output ? 1 : 0)[2]
+    psi = dmrg(Hamiltonian, psi0; nsweeps=sweeps, maxdim=bond_dim, cutoff=1e-15, observer=DMRGObserver(;energy_tol=convergence), outputlevel=output ? 1 : 0)[2]
 
     C = correlation_matrix(psi, "adag", "a")
 
@@ -49,10 +48,18 @@ function exponential_fit(x, a)
 end
 
 #fit an exponential to the correlation function
-function correlation_length(t::Float64, U::Float64, μ::Float64, L::Int; guess::Float64=1.)
-    C = correlation_function(t, U, μ, L)
+function correlation_length(t::Float64, U::Float64, μ::Float64, L::Int)
+    C = correlation_function(t, U, μ, L; convergence=1e-10)
 
-    data = hcat(0:length(C)-1, C)
+    data = hcat(20:length(C)-1, C[21:end])
+    l = 0
+    
+    for guess in 0.1:0.1:10
+        l = nonlinear_fit(data, exponential_fit, [guess])[1][1]
+        if !isnan(l)
+            break
+        end
+    end
 
-    return nonlinear_fit(data, exponential_fit, [guess])[1][1]
+    return l
 end

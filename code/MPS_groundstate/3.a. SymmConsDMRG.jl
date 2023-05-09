@@ -102,3 +102,19 @@ function energyMinusOne(t::Float64, U::Float64, μ::Float64, L::Int, lobe::Int)
 
     return energy_m
 end
+
+
+function energy_gap(t::Float64, U::Float64, μ::Float64, L::Int)
+    Hamiltonian, site_type = boseHubbardHamiltonian(t, U, μ, L, periodic_boundary=false)
+
+    energies = []
+
+    for i in ["0", "1", "2"]
+        state = [j == 1 ? i : "1" for j in 1:L]
+        psi0 = randomMPS(site_type, state)
+        energy_m, psi_m = dmrg(Hamiltonian, psi0; nsweeps=100, maxdim=128, cutoff=1e-15, observer=DMRGObserver(;energy_tol=1e-10), output=0)
+        append!(energies, energy_m)
+    end
+    
+    return energies[1] + energies[3] - 2 * energies[2]
+end
