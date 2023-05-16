@@ -33,6 +33,6 @@ def merge(name, directory):
 
     print(total_df)
 
-merge("./mott-lobe-E0.json", "Mott-Lobe-E0")
-merge("./mott-lobe-Ep1.json", "Mott-Lobe-Ep1")
-merge("./mott-lobe-Em1.json", "Mott-Lobe-Em1")
+merge("./mott-lobe-3-E0.json", "Mott-Lobe-2-E0")
+merge("./mott-lobe-3-Ep1.json", "Mott-Lobe-2-Ep1")
+merge("./mott-lobe-3-Em1.json", "Mott-Lobe-2-Em1")
