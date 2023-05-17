@@ -6,10 +6,10 @@ function BoseHubbardHamiltonian(eltype=Float64, symmetry=U₁;
     lattice=FiniteChain(L)
     # Open boundary conditions.
     BHHamiltonian = bose_hubbard_model(eltype, symmetry, lattice; cutoff, t, U, mu, n)
-    charges = fill(1, L)
-    MPOHamiltonian = MPSKit.add_physical_charge(BHHamiltonian, charges)
+    # charges = fill(1, L)
+    # MPOHamiltonian = MPSKit.add_physical_charge(BHHamiltonian, charges)
 
-    return MPOHamiltonian
+    return BHHamiltonian
 end
 
 function optimize(eltype=Float64, symmetry=U₁;
