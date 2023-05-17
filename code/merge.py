@@ -13,13 +13,13 @@ def merge(name, directory):
 
     json_pattern = os.path.join(path, '*.json')
     file_list = glob.glob(json_pattern)
-    print(file_list)
 
     for file in file_list:
         with open(file) as json_file:
             data = json.load(json_file)
             data = {k:[v] for k,v in data.items()}  # WORKAROUND
-        total_df = total_df.append(data, ignore_index=True)
+            print(data)
+        total_df = pd.concat([total_df, pd.DataFrame([data])], ignore_index=True)
 
     total_df = total_df.sort_values(['t_val'], ascending=[True])
     total_df = total_df.reset_index(drop=True)
