@@ -339,7 +339,7 @@ where the state $\Psi$ of dimensions $(n \times m)$ is decomposed in a summation
     \sum_m R^m_i R^m_j &= \delta_{ij} \thinspace .
   \end{split}
 \end{align}
-In graphical representation, we can such an SVD as
+In graphical representation, we can represent such an SVD as
 \begin{equation} \label{eq: SVD-graphic}
   \begin{tikzpicture}[baseline={([yshift=-.5ex]current bounding box.center)}]
     \draw[gray, thick] (1,0) -- (1,1);
@@ -374,7 +374,7 @@ and the subsequent orthonormality relations become
     \end{tikzpicture} &= \delta_{ij} \thinspace .
   \end{split}
 \end{align}
-The singular values in \cref{eq: SVD-graphic} can be absorbed in the tensor to the right, reducing everything on the left to a series of kronecker deltas due to \cref{eq: orthogonality-graphic}. This is called \emph{left gauging} the tensors MPS and leads to the \emph{left canonical form}. Analogously \emph{right gauging} the tensors results in the \emph{right canonical form}. By fixing a single site and left gauging the tensors to the left of said site, as well as right gauging the right tensors, the MPS can be written in the \emph{mixed canonical form}. By a repeated application of such SVD's, we can write any quantum state as a series of matrix products, a matrix product state (MPS).
+The singular values in \cref{eq: SVD-graphic} can be absorbed in the tensor to the right, reducing everything on the left to a series of kronecker deltas due to \cref{eq: orthogonality-graphic}. This is called \emph{left gauging} the tensors and leads to the \emph{left canonical form}. Analogously \emph{right gauging} the tensors results in the \emph{right canonical form}. By fixing a single site and left gauging the tensors to the left of said site, as well as right gauging the right tensors, the MPS can be written in the \emph{mixed canonical form}. By a repeated application of such SVD's, we can write any quantum state as a series of matrix products, a matrix product state.
 
 \subsubsection{Minimizing MPS wavefunctions with DMRG}
 In order to minimize an MPS wavefunction, we aim to minimize
@@ -545,7 +545,7 @@ as a three-index tensor and we combine \cref{eq:gradient-1} and \cref{eq:gradien
 \begin{equation}\label{eq:a-tensor}
   a[nij] \rightarrow a[nij] + \epsilon g[nij] \thinspace .
 \end{equation}
-However, if we write the MPS in the mixed canonical form we can avoid the gradient algorithm all together. If we consider \cref{eq:a-tensor}, the \cref{eq:gradient-1} can also be written as a tensor
+However, if we write the MPS in the mixed canonical form we can avoid the gradient algorithm all together. If we consider \cref{eq:a-tensor}, then \cref{eq:gradient-1} can also be written as a tensor
 \begin{equation}\label{eq:gradient-1-as-tensor}
   \begin{tikzpicture}[baseline={([yshift=-.5ex]current bounding box.center)}]
     % Open system
@@ -656,7 +656,7 @@ since the mixed canonical reduced the $M$ tensors to $\delta_{ij}$ due to the or
 
 We use a half-filled three site system with periodic boundary conditions in which particle number conservation is imposed, as a test bed for population redistributions calculated with exact diagonalization. Such a system is divided into an open subsystem of one site and an environment that contains the rest of the system. For different values ​​of $U/t$, where the hopping $t_{ij}$ is gradually lowered to evolve the system from low to highly correlated, we scan over a range of $\lambda$ to calculate the associated ground state and population of the open system. If a specific population is required, we find the multiplier that results in that population by solving the Lagrange constraint $(\hat{n} - \expval{\hat{n}})$.
 
-To look at larger systems with exact diagonalization we can increase the system size to six sites. To reduce finite size effects associated with such a small system, we switch to an MPS representation of the wave function optimized with a DMRG algorithm for even larger systems (128 and 129 sites) in order to circumvent the exponential scaling associated with exact diagonalization. These systems are studied using a Hamiltonian with open boundary conditions, to facilitate the calculations.
+To look at larger systems with exact diagonalization we can increase the system size to six sites. To reduce finite size effects associated with such a small system and to circumvent the exponential scaling associated with exact diagonalization, we switch to an MPS representation of the wave function optimized with a DMRG algorithm for even larger systems (128 and 129 sites). These systems are studied using a Hamiltonian with open boundary conditions, to facilitate the calculations.
 
 The exact diagonalization code is self-implemented \cite{github} based on the work by Zhang and coworkers \cite{zhang2010} and the DMRG calculations are performed with ITensors \cite{Fishman2022}.
 
@@ -705,11 +705,11 @@ Such small systems are incapable of providing information about the location of 
       \label{fig:Mott-Lobes}
   \end{figure}
 \end{center}
-The single-particle excitation gap closes for every imposed integer density on the sites and several Mott lobes emerge, each with its own critical point. At the critical point, i.e. the tip of each Mott lobe, the model resides in the universality class of the XY-spin model, which indicates the presence of a BKT phase transition. In these Mott Lobes, the system has a constant, integer density on each site. Outside of the Mott-Lobes, the system enters a \emph{super critical state} in its particle number and no energy loss or gain is associated with changes in particle number.
+The single-particle excitation gap closes for every imposed integer density on the sites and several Mott lobes emerge, each with its own critical point. At the critical point, i.e. the tip of each Mott lobe, the model resides in the universality class of the XY-spin model, which indicates the presence of a BKT phase transition. In these Mott Lobes, the system has a constant, integer density on each site. Outside of the Mott Lobes the system enters a \emph{super critical state} where the potential associated with single particle excitations becomes independent from the number of particles in the system.
 
 \subsection{Superfluid Bose-Hubbard systems compensate impurities homogeneously across the system}
 
-The bose-Hubbard model can be modified with the imposition of certain potentials ($\omega_i$, \cref{eq:bose-hubbard-hamiltonian}) on distinct sites of the lattice. Doing so disturbs to the otherwise uniform lattice and can be used to mimic impurities in solid state materials. Stabilizing impurities in the MI phase causes the bosonic population to increase on the affected sites, leading to compensation effects in the neighboring sites (\cref{fig:density-MI}), as the total particle number is preserved.
+The bose-Hubbard model can be modified with the imposition of certain potentials ($\omega_i$, \cref{eq:bose-hubbard-hamiltonian}) on distinct sites of the lattice. Doing so disturbs the otherwise uniform lattice and can be used to mimic impurities in solid state materials. Stabilizing impurities in the MI phase causes the bosonic population to increase on the affected sites, leading to compensation effects in the neighboring sites (\cref{fig:density-MI}), as the total particle number is preserved.
 \begin{center}
   \begin{figure}
       \includegraphics[width=\linewidth]{../code/figures/Density-profiles-MI.pdf}
@@ -717,7 +717,7 @@ The bose-Hubbard model can be modified with the imposition of certain potentials
       \label{fig:density-MI}
   \end{figure}
 \end{center}
-As the strength of the impurity increases, the the amount of sites needed to compensate for the impurity increases. The MI phase attempts to preserve the average density $\rho=1.0$ a.u. on as much of the lattice as possible. The SF phase on the other hand has no energetic advantage in preserving the average density on each site. Indeed, in order to adjust the system occupations with respect to the impurity, the average density on all sites gets shifted (\cref{fig:density-SF}) down.
+As the strength of the impurity increases, the amount of sites needed to compensate for the impurity increases. The MI phase attempts to preserve an integer density $\rho=1.0$ a.u. on as much of the lattice as possible. The SF phase on the other hand has no energetic advantage in preserving an integer occupation on each site. Indeed, in order to adjust the system occupations with respect to the impurity, the average density on all sites gets shifted down (\cref{fig:density-SF}).
 \begin{center}
   \begin{figure}
       \includegraphics[width=\linewidth]{../code/figures/Density-profiles-SF.pdf}
@@ -729,7 +729,7 @@ The super-criticality in the particle number, associated with the SF phase, allo
 
 \subsection{Fractional filling of the system induces density waves}
 
-The system can also be brought in the superfluid phase at subcritical $U/t$ values by setting the total particle number in such a way that as an average, sites have a non-integer filling (\cref{eq:waves}). Such a fractional filling induces density waves throughout the system. These waves will have a frequency of $q$ sites for a fractional $\expval{\hat{n}} = \rho/q$ (\cref{fig:waves}). 
+The system can also be brought in the superfluid phase at subcritical $U/t$ values by setting the total particle number in such a way that as an average, sites have a non-integer filling (\cref{eq:waves}). Such a fractional filling induces density waves throughout the system. These waves appear periodically every $q$ sites for a fractional $\expval{\hat{n}} = \rho/q$ (\cref{fig:waves}). 
 \begin{center}
   \begin{figure}
       \includegraphics[width=\linewidth]{../code/figures/Density-profiles-fractional-density.pdf}
@@ -768,7 +768,7 @@ The finite bond dimension used throughout the DMRG algorithm limits the correlat
       \label{fig:corSF1}
   \end{figure}
 \end{center}
-When inducing the transition to the superfluid phase by imposing a fractional average occupation per site, at sub-critical $t/U$ values, the decay is qualitatively identical to the large $t/U$ case, but occurs much slower (\cref{fig:corSF2}).
+When inducing the transition to the superfluid phase by imposing a fractional average occupation per site, at sub-critical $t/U$ values, the decay is qualitatively identical to the large $t/U$ case, but occurs much quicker (\cref{fig:corSF2}).
 \begin{center}
   \begin{figure}
       \includegraphics[width=\linewidth]{../code/figures/Correlations-SF2.pdf}
@@ -806,11 +806,11 @@ Modelling the critical point $t_c$ of a BKT-transition is very computationally d
 \end{center}
 Finite size effects and finite bond dimension still prevent the correlation length from diverging, however. 
 
-In the superfluid phase, the critical value of $K$ (\cref{eq:power decay}), i.e. $K_c$ can be approximated by fitting a power law to the algebraically decaying correlations (evidenced by \cref{fig:corSF1}, \cref{fig:corSF2}, \cref{fig:bonds} and \cref{fig:lengths}). To circumvent the fact that the algebraic decay relation only applies for non-integer average occupations at small $t/U$, the correlation functions are calculated for $\rho\rightarrow n$ with $n$ an integer value. When the average density on each site equals one ($n=1$), the critical $K_c$ can be calculated to be $K_c=1/2$ (using \cref{eq:Kc}). By approximating the density in $\rho\rightarrow n$ as $\rho=31/32$, the critical value found is approximately $K_c\approx 0.33$ (\cref{fig:K values}).
+In the superfluid phase, the value of $K$ (\cref{eq:power decay}) can be approximated by fitting a power law to the algebraically decaying correlations (evidenced by \cref{fig:corSF1}, \cref{fig:corSF2}, \cref{fig:bonds} and \cref{fig:lengths}). To circumvent the fact that the algebraic decay relation only applies for non-integer average occupations at small $t/U$, the correlation functions are calculated for $\rho\rightarrow n$ with $n$ an integer value. When the average density on each site equals one ($n=1$), the critical $K_c$ can be calculated to be $K_c=1/2$ (using \cref{eq:Kc}). By approximating the density in $\rho\rightarrow n$ as $\rho=31/32$, the critical value found is approximately $K_c\approx 0.33$ (\cref{fig:K values}).
 \begin{center}
   \begin{figure}
       \includegraphics[width=\linewidth]{../code/figures/Correlations-K-values.pdf}
-      \caption{Correlation lengths in the SF phase for different values of $t/U$ and $\rho=31/32$.}
+      \caption{Values (K) indicating the power of the algebraic decay law in the SF phase for different values of $t/U$ and $\rho=31/32$. Calculated for a system of $L=128$ with open boundary conditions.}
       \label{fig:K values}
   \end{figure}
 \end{center}
