@@ -35,6 +35,8 @@
 \usepackage[utf8]{inputenc}
 \usepackage{physics}
 \usepackage{tikz}
+\usetikzlibrary{shapes.geometric}
+
 \usepackage[mathscr]{euscript}  % \mathscr
 
 %%%Please don't disable any packages in the preamble, as this may cause the template to display incorrectly.%%%
@@ -260,24 +262,24 @@ From \cref{eq:waves}, it can be seen that the density waves decay slower as $K$ 
 \subsection{Population redistributions on the bose-Hubbard model}
 As shown in literature \cite{devriendt2021, devriendt2022}, we can redistribute particles within our system by imposing constraints through a Lagrangian formalism \cite{mukherji1963, zeiss1983, kaduk2011}
 \begin{equation}
-  \mathscr{L}(\vb{p}, \mu)
+  \mathscr{L}(\vb{p}, \lambda)
         = E_{tot}(\vb{p})
-        - \mu ( m(\vb{p}) - M )
+        - \lambda ( m(\vb{p}) - M )
         \thinspace ,
 \end{equation} 
-where $m(\vb{p})$ is the value of the feature operator at the model parameters $\vb{p}$ and $M$ is the target value for the feature operator. The stationary condition of the Lagrange multiplier $\mu$ yields the value of the defined feature operator, and the stationary conditions of the model parameters $\vb{p}$ can be written as
+where $m(\vb{p})$ is the value of the feature operator at the model parameters $\vb{p}$ and $M$ is the target value for the feature operator. The stationary condition of the Lagrange multiplier $\lambda$ yields the value of the defined feature operator, and the stationary conditions of the model parameters $\vb{p}$ can be written as
 \begin{equation}
   \eval{
     \pdv{
-        \mathscr{L}(\vb{p}, \mu)
+        \mathscr{L}(\vb{p}, \lambda)
     }{p_i}
-}_{\mu^\star, \thinspace \vb{p}^\star}
+}_{\lambda^\star, \thinspace \vb{p}^\star}
 = \eval{
     \pdv{
         E_{tot}(\vb{p})
     }{p_i}
 }_{\vb{p}^\star}
-- \mu^\star \qty( 
+- \lambda^\star \qty( 
     \eval{
         \pdv{
             m(\vb{p})
@@ -288,9 +290,9 @@ where $m(\vb{p})$ is the value of the feature operator at the model parameters $
 \thinspace .
 \label{eq:stationary_condition_model_parameters}
 \end{equation}
-Using these stationary conditions we can derive a modified Hamiltonian $\hat{H}_{mod}(\mu)$ where the feature operator $\hat{m}$ is weighed by the value of the Lagrange multiplier
+Using these stationary conditions we can derive a modified Hamiltonian $\hat{H}_{mod}(\lambda)$ where the feature operator $\hat{m}$ is weighed by the value of the Lagrange multiplier
 \begin{equation}
-  \hat{H}_{mod}(\mu) = \hat{H} - \mu \hat{m} \thinspace .
+  \hat{H}_{mod}(\lambda) = \hat{H} - \lambda \hat{m} \thinspace .
   \label{eq:modified-hamiltonian}
 \end{equation}
 It is important to note that, while the modified Hamiltonian is suited to optimize the model parameters of the wave function in such a way that the stationary condition of the Lagrange multiplier is satisfied, the energy of the system needs to be calculated using the original Hamiltonian of the system. This can be achieved by correcting for the imposed feature
@@ -298,7 +300,7 @@ It is important to note that, while the modified Hamiltonian is suited to optimi
   \begin{split}
     E_{tot}(\vb{p}^\star)
     &= \ev*{\hat{H}}{\Psi(\vb{p}^\star)} \\ 
-    &= \ev*{\hat{H}_{\text{mod}} + \mu\hat{m}}{\Psi(\vb{p}^\star)}
+    &= \ev*{\hat{H}_{\text{mod}} + \lambda\hat{m}}{\Psi(\vb{p}^\star)}
     \thinspace .
   \end{split}
 \end{align}
@@ -313,17 +315,66 @@ and subsequently defining the feature operator as the number operator of the ope
 \end{equation}
 Combining \cref{eq:modified-hamiltonian} with \cref{eq:bose-hubbard-hamiltonian} and \cref{eq:feature} yields
 \begin{equation}
-  \hat{H}_{mod}(\mu) = \sum_{<i,j>} t_{ij}\hat{b}_i^\dagger \hat{b}_j + \frac{1}{2}\sum_i U_i\hat{b}_i^{\dagger 2} \hat{b}_i^{2} + \sum_i \omega_i \hat{b}_i^\dagger \hat{b}_i - \sum_i^{os}\hat{n}_i \thinspace ,
+  \hat{H}_{mod}(\lambda) = \sum_{<i,j>} t_{ij}\hat{b}_i^\dagger \hat{b}_j + \frac{1}{2}\sum_i U_i\hat{b}_i^{\dagger 2} \hat{b}_i^{2} + \sum_i \omega_i \hat{b}_i^\dagger \hat{b}_i - \lambda\sum_i^{os}\hat{n}_i \thinspace ,
 \end{equation}
-where the \emph{chemical potential} $\mu$ can be tuned in order to impose a certain redistribution of bosons between the open subsystem and the environment.
+where the \emph{chemical potential} $\lambda$ can be tuned in order to impose a certain redistribution of bosons between the open subsystem and the environment.
 
 \subsection{Density matrix renormalization group}
+\subsubsection{Singular value decomposition}
+A singular value decomposition decomposes any state as
+\begin{equation} \label{eq:SVD}
+  \Psi^{nm} = \sum_i L^n_i \sigma_i R^m_i \thinspace ,
+\end{equation}
+where the state $\Psi$ of dimensions $(n \times m)$ is decomposed in asummation of left eigenbases $L$ of dimensions $(n \times n)$, right eigenbases $R$ of dimensions $(m \times m)$ and \emph{diagonal}, rectangular $(n \times m)$ matrices of singular values $\sigma$. Here both $L$ and $R$ form a set of orthogonality conditions
+\begin{align}\label{eq:orthogonality}
+  \begin{split} 
+    \sum_n L^n_i L^n_j &= \delta_{ij} \thinspace , \\
+    \sum_m R^m_i R^m_j &= \delta_{ij} \thinspace .
+  \end{split}
+\end{align}
+In graphical representation, we can such an SVD as
+\begin{equation} \label{eq: SVD-graphic}
+  \begin{tikzpicture}[baseline={([yshift=-.5ex]current bounding box.center)}]
+    \draw[gray, thick] (1,0) -- (1,1);
+    \draw[gray, thick] (-1,0) -- (-1,1);
+    \node (rect) at (0,0) [draw,thick,minimum width=2cm,minimum height=0.5cm, fill=black!20] {$\Psi$};
+  \end{tikzpicture} = 
+  \begin{tikzpicture}[baseline={([yshift=-.5ex]current bounding box.center)}]
+    \draw[gray, thick] (0,0) -- (0,1);
+    \draw[gray, thick] (2,0) -- (2,1);
+    \draw[gray, thick] (0,0) -- (2,0);
+    \node[draw, circle, line cap=round, fill=black!20, minimum size=12] at (0,0) {$L^n$};
+    \node[draw, isosceles triangle, isosceles triangle apex angle=60, rotate=30, line cap=round, fill=green!20, minimum size=12] at (1,0) { $\sigma$};
+    \node[draw, circle, line cap=round, fill=black!20, minimum size=12] at (2,0) {$R^m$};
+  \end{tikzpicture} \thinspace ,
+\end{equation}
+and the subsequent orthonormality relations become 
+\begin{align} \label{eq: orthogonality-graphic}
+  \begin{split}
+    \begin{tikzpicture}[baseline={([yshift=-.5ex]current bounding box.center)}]
+      \draw[gray, thick] (0,0) -- (0,-1);
+      \draw[gray, thick] (0,0) -- (0.75,0);
+      \draw[gray, thick] (0,-1) -- (0.75,-1);
+      \node[draw, circle, line cap=round, fill=black!20, minimum size=12] at (0,0) {$L_i^n$};
+      \node[draw, circle, line cap=round, fill=black!20, minimum size=12] at (0,-1) {$L_j^n$};
+    \end{tikzpicture} &= \delta_{ij} \thinspace ,\\
+    \begin{tikzpicture}[baseline={([yshift=-.5ex]current bounding box.center)}]
+      \draw[gray, thick] (0,0) -- (0,-1);
+      \draw[gray, thick] (0,0) -- (-0.75,0);
+      \draw[gray, thick] (0,-1) -- (-0.75,-1);
+      \node[draw, circle, line cap=round, fill=black!20, minimum size=12] at (0,0) {$R_i^m$};
+      \node[draw, circle, line cap=round, fill=black!20, minimum size=12] at (0,-1) {$R_j^m$};
+    \end{tikzpicture} &= \delta_{ij} \thinspace .
+  \end{split}
+\end{align}
+The singular values in \cref{eq: SVD-graphic} can be absorbed in the tensor to the right, reducing everything on the left to a series of kronecker deltas due to \cref{eq: orthogonality-graphic}. This is called \emph{left gauging} the tensors MPS and leads to the \emph{left canonical form}. Analogously \emph{right gauging} the tensors results in the \emph{rihgt canonical form}. By fixing a single site and left gauging the tensors to the left of said site, as well as right gauging the right tensors, the MPS can be written in the \emph{mixed canonical form}. By a repeated application of such SVD's, we can write any quantum state as a series of matrix products, a matrix product state (MPS).
 
+\subsubsection{Minimizing MPS wavefunctions with DMRG}
 In order to minimize an MPS wavefunction, we aim to minimize
 \begin{equation}
   \min_\phi \bra{\psi - \phi}\ket{\psi - \phi} = \min_\phi [-2\bra{\phi}\ket{\psi} + \bra{\psi}\ket{\psi}] \thinspace ,
 \end{equation}
-where $\psi$ represents the original MPS, and $\phi$ the new MPS, compressed by truncating the singular values. In graphical representation, the norms on the right hand side become
+where $\psi$ represents the original MPS, and $\phi$ the new MPS, compressed by truncating the singular values, i.e. reducing the dimensions of the problem by discarding singular values smaller than a certain threshold. In graphical representation, the norms on the right hand side become
 \begin{equation} 
     \bra{\phi}\ket{\psi} =
   \begin{tikzpicture}[baseline={([yshift=-.5ex]current bounding box.center)}]
@@ -483,11 +534,11 @@ If we now consider
     \node[draw, circle, line cap=round, fill=red!20] at (0.5,0) {\tiny 2};
   \end{tikzpicture} = A^n_{ij} \equiv a[nij] 
 \end{equation}
-as a three-index tensor, we can combine \cref{eq:gradient-1} and \cref{eq:gradient-2} into $g[nij]$ and write the gradient step as
+as a three-index tensor and we combine \cref{eq:gradient-1} and \cref{eq:gradient-2} into $g[nij]$, the gradient step becomes
 \begin{equation}\label{eq:a-tensor}
   a[nij] \rightarrow a[nij] + \epsilon g[nij] \thinspace .
 \end{equation}
-However, if we write the MPS in the mixed canonical form, i.e. absorb the singular values to the left, left of site two and to the right, right of site two, we can avoid the gradient algorithm all together. If we consider \cref{eq:a-tensor}, the \cref{eq:gradient-1} can also be written as a tensor
+However, if we write the MPS in the mixed canonical form we can avoid the gradient algorithm all together. If we consider \cref{eq:a-tensor}, the \cref{eq:gradient-1} can also be written as a tensor
 \begin{equation}\label{eq:gradient-1-as-tensor}
   \begin{tikzpicture}[baseline={([yshift=-.5ex]current bounding box.center)}]
     % Open system
@@ -592,15 +643,19 @@ which can now be performed as a \emph{sweep algorithm} where the optimization is
 \begin{equation}
   Ma = b \rightarrow a = b \thinspace ,
 \end{equation}
-since the mixed canonical form contains orthogonality in the left-gauged and right-gauged tensors respectively, thus simplifying the $M$ to a kronecker delta. 
+since the mixed canonical reduced the $M$ tensors to $\delta_{ij}$ due to the orthogonality conditions (\cref{eq: orthogonality-graphic}). 
 
 \section{Methodology}
 
-For the exact diagonalization (ED) calculations we look at a one-dimensional bose-Hubbard model of three sites, in the number sector where our system contains three bosons. The ED algorithm is self-implemented based on the algorithm described by Zhang and coworkers \cite{zhang2010}. $U/t$ is varied by gradually lowering the nearest neighbor hopping $t_{ij}$, evolving the system towards a more strongly correlated state. The formalism of constraints is either applied by scanning over a range of chemical potentials ($\mu_{os}$) or by optimizing the Lagrange multiplier in order to impose a certain population on the open subsystem ($N_{os}$). The latter is achieved by finding the root of the associated constraint $(\hat{n} - \expval{\hat{n}})$. When optimizing towards a certain population, a small asymmetry is introduced in the on-site potentials $\omega_i$, in order to facilitate the optimization procedure. For larger systems, the ITensors package \cite{Fishman2022} density matrix renormalization group (DMRG) algorithm was used.
+We use a half-filled three site system with periodic boundary conditions in which particle number conservation is imposed, as a test bed for population redistributions calculated with exact diagonalization. Such a system is divided into an open subsystem of one site and an environment that contains the rest of the system. For different values ​​of $U/t$, where the hopping $t_{ij}$ is gradually lowered to evolve the system from low to highly correlated, we scan over a range of $\lambda$ to calculate the associated ground state and population of the open system. If a specific population is required, we find the multiplier that results in that population by solving the Lagrange constraint $(\hat{n} - \expval{\hat{n}})$.
+
+To look at larger systems with exact diagonalization we can increase the system size to six sites. To reduce finite size effects associated with such a small system, we switch to an MPS representation of the wave function optimized with a DMRG algorithm for even larger systems (128 and 129 sites) in order to circumvent the exponential scaling associated with exact diagonalization. These systems are studied using a Hamiltonian with open boundary conditions, to facilitate the calculations.
+
+The exact diagonalization code is self-implemented \cite{github} based on the work by Zhang and coworkers \cite{zhang2010} and the DMRG calculations are performed with ITensors \cite{Fishman2022}.
 
 \section{Results and discussion}
 \subsection{Population redistributions show the effects of Mott-Hubbard type transitions}
-The chemical potential $\mu_{os}$ induces changes in the open subsystem population $N_{os}$, which becomes increasingly stepwise as $U/t$ is increased, leading to the appearance of \emph{Mott-Hubbard plateaus} (\cref{fig:Mott-Hubbard}). The applied chemical potential determines when a given boson is exchanged between the open subsystem and its environment. While at low $U/t$-values, this process occurs continuously, the more strongly correlated the system becomes, the more discontinuous the exchange process becomes. 
+The external chemical potential $\lambda_{os}$ induces changes in the open subsystem population $N_{os}$, which becomes increasingly stepwise as $U/t$ is increased, leading to the appearance of \emph{Mott-Hubbard plateaus} (\cref{fig:Mott-Hubbard}). The applied chemical potential determines when a given boson is exchanged between the open subsystem and its environment. While at low $U/t$-values, this process occurs continuously, the more strongly correlated the system becomes, the more discontinuous the exchange process becomes. 
 \begin{center}
     \begin{figure}
         \includegraphics[width=\linewidth]{../code/figures/BH-3in3-NvsMu.pdf}
@@ -608,7 +663,7 @@ The chemical potential $\mu_{os}$ induces changes in the open subsystem populati
         \label{fig:Mott-Hubbard}
     \end{figure}
 \end{center}
-At high $U/t$, the Mott-plateaus restrict the movement of the bosons, indicating the system has transitioned to the MI-phase. The restriction of movement is also captured by the energy (\cref{fig:energetic-plateaus}), whose function becomes stepwise with energetic jumps occurring at the same critical $\mu_{os}$ where the boson-exchange takes place.
+At high $U/t$, the Mott-plateaus restrict the movement of the bosons, indicating the system has transitioned to the MI-phase. The restriction of movement is also captured by the energy (\cref{fig:energetic-plateaus}), whose function becomes stepwise with energetic jumps occurring at the same critical $\lambda_{os}$ where the boson-exchange takes place.
 \begin{center}
   \begin{figure}
       \includegraphics[width=\linewidth]{../code/figures/BH-3in3-EvsMu.pdf}
@@ -627,28 +682,27 @@ The dual viewpoint which we can associate with these Mott-Hubbard plateaus is gi
 
 \subsection{DMRG can model the complete groundstate Bose-Hubbard phase diagram}
 
-At integer filling of the sites ($\rho=\frac{N}{L}$) the one-dimensional Bose-Hubbard model describes a Mott transition (\cref{fig:Mott-Lobes}) between a so-called superfluid phase which is defined by a divergence of the momentum distribution at momentum $k$ equal to zero, and an MI phase, characterized by a finite gap for single particle excitations, defined by the difference between the potentials for half band filling and one particle less than half band filling (\cref{eq:gap}).
-\begin{center}
-  \begin{figure}
-      \includegraphics[width=\linewidth]{../code/figures/Mott-Lobes.pdf}
-      \caption{The first three Mott Lobes of the ground state Bose-Hubbard model. Colored sections represent the MI phases, while sections outside of the boundaries represent the superfluid phase. Calculated for $L=128$ using the DMRG algorithm.}
-      \label{fig:Mott-Lobes}
-  \end{figure}
-\end{center}
-At the critical point, i.e. the tip of each Mott lobe, the model resides in the universality class of the XY-spin model, which indicates the presence of a BKT phase transition.
-
-Exact diagonalization was also used to model this behavior. Due to the limitations of the exponential scaling however, a small number of sites and particles was used. The first three Mott-Lobes for $L=6$ (\cref{fig:Mott-Lobes-ED}) are unable to describe a critical value $(t/U)_c$ where the gap $\Delta(L)$ closes.
+Instead of characterizing phase transitions based on population distributions in arbitrarily defined subsystems, it is also possible to model the phase diagram of the complete system. At integer filling of the sites ($\rho=\frac{N}{L}$) the one-dimensional Bose-Hubbard model describes a Mott transition (\cref{fig:Mott-Lobes}) between a so-called superfluid phase which is defined by a divergence of the momentum distribution at momentum $k$ equal to zero, and an MI phase, characterized by a finite gap for single particle excitations, defined by the difference between the potentials for half band filling and one particle less than half band filling (\cref{eq:gap}). However, in a six-site system this phase transition is not correctly described. Due to large finite-size effects, the single-particle excitation gap never closes (\cref{fig:Mott-Lobes-ED}) and the system remains in a Mott-Insulator band.
 \begin{center}
   \begin{figure}
       \includegraphics[width=\linewidth]{../code/figures/Mott-Lobes-ED.pdf}
-      \caption{The first three Mott Lobes of the ground state Bose-Hubbard model. Colored sections represent the MI phases, while sections outside of the boundaries represent the superfluid phase. Calculated for $L=6$ using ED.}
+      \caption{The first three Mott Lobes of the ground state Bose-Hubbard model. Colored sections represent the MI phases, while sections outside of the boundaries represent the superfluid phase. Calculated for $L=6$ with periodic boundary conditions using ED.}
       \label{fig:Mott-Lobes-ED}
   \end{figure}
 \end{center}
-Due to large finite size effect, the small system is incapable of providing evidence of the critical point. 
-\subsection{Density per site behaves distinctly different in the superfluid phase}
+Such small systems are incapable of providing information about the location of the critical point and the associated phase transition. To identify the critical point we enlarge the system to 128 sites. For such a system, DMRG is able to model the complete phase diagram (\cref{fig:Mott-Lobes}).
+\begin{center}
+  \begin{figure}
+      \includegraphics[width=\linewidth]{../code/figures/Mott-Lobes.pdf}
+      \caption{The first three Mott Lobes of the ground state Bose-Hubbard model. Colored sections represent the MI phases, while sections outside of the boundaries represent the superfluid phase. Calculated for $L=128$ with open boundary conditions using the DMRG algorithm.}
+      \label{fig:Mott-Lobes}
+  \end{figure}
+\end{center}
+The single-particle excitation gap closes for every imposed integer density on the sites and several Mott lobes emerge, each with its own critical point. At the critical point, i.e. the tip of each Mott lobe, the model resides in the universality class of the XY-spin model, which indicates the presence of a BKT phase transition. In these Mott Lobes, the system has a constant, integer density on each site. Outside of the Mott-Lobes, the system enters a \emph{super critical state} in its particle number and no energy loss or gain is associated with changes in particle number.
 
-The bose-Hubbard model can be modified with the imposition of certain potentials on distinct sites of the lattice. Doing so adds impurities to the otherwise uniform lattice and can be used to study such impurities in solid state materials. Stabilizing impurities in the MI phase cause the bosonic population to increase on the affected sites, leading to compensation effects in the neighbouring sites (\cref{fig:density-MI}), as the total particle number is preserved.
+\subsection{Superfluid Bose-Hubbard systems compensate impurities homogeneously across the system}
+
+The bose-Hubbard model can be modified with the imposition of certain potentials ($\omega_i$, \cref{eq:bose-hubbard-hamiltonian}) on distinct sites of the lattice. Doing so disturbs to the otherwise uniform lattice and can be used to mimick impurities in solid state materials. Stabilizing impurities in the MI phase causes the bosonic population to increase on the affected sites, leading to compensation effects in the neighbouring sites (\cref{fig:density-MI}), as the total particle number is preserved.
 \begin{center}
   \begin{figure}
       \includegraphics[width=\linewidth]{../code/figures/Density-profiles-MI.pdf}
@@ -656,7 +710,7 @@ The bose-Hubbard model can be modified with the imposition of certain potentials
       \label{fig:density-MI}
   \end{figure}
 \end{center}
-As the strength of the impurity increases, the the amount of sites needed to compensate for the impurity increases. The MI phase attempts to preserve the average density $\rho=1.0$ a.u. on as much of the lattice as possible. The SF phase on the other hand has no energetic advantage in preserving the average density on each site. Indeed, in order to adjust the system occupations with respect to the impurity, the average density on all sites gets shifted (\cref{fig:density-SF})
+As the strength of the impurity increases, the the amount of sites needed to compensate for the impurity increases. The MI phase attempts to preserve the average density $\rho=1.0$ a.u. on as much of the lattice as possible. The SF phase on the other hand has no energetic advantage in preserving the average density on each site. Indeed, in order to adjust the system occupations with respect to the impurity, the average density on all sites gets shifted (\cref{fig:density-SF}) down.
 \begin{center}
   \begin{figure}
       \includegraphics[width=\linewidth]{../code/figures/Density-profiles-SF.pdf}
@@ -666,12 +720,12 @@ As the strength of the impurity increases, the the amount of sites needed to com
 \end{center}
 The super-criticality in the particle number, associated with the SF phase, allows for the homogeneous compensation with respect to the impurities in the model.
 
-\subsection{Density waves caused by fractional site filling}
+\subsection{Fractional filling of the system induces density waves}
 As discussed earlier, the superfluid phase can also be investigated at small values of $t/U$ if the number of particles per site is a fractional value, rather than an integer which is required for the MI phase.  We can now see density waves described by \cref{eq:waves}. If the density is a fraction $p/q$, the waves on the grid will have a period of $q$ sites, as confirmed in \cref{fig:waves}. 
 The black line is a power-law decay fitted to a series of points with spacing 4 and shows the algebraic decay of these density waves caused by edge effects. 
 \begin{center}
   \begin{figure}
-      \includegraphics[width=\linewidth]{../code/figures/Density-profiles-fractional density.pdf}
+      \includegraphics[width=\linewidth]{../code/figures/Density-profiles-fractional-density.pdf}
       \caption{Density profile of a chain in the superfluid phase containing 129 sites ($L$) with fractional filling $\rho=3/4$.}
       \label{fig:waves}
   \end{figure}
@@ -679,7 +733,7 @@ The black line is a power-law decay fitted to a series of points with spacing 4 
 When an impurity is added (\cref{fig:waves-impurity}), additional waves are formed. These have the same wavelength as the waves at the edges, but depending on the location of the impurity they can have a different phase. This causes interference between the different density waves. 
 \begin{center}
   \begin{figure}
-      \includegraphics[width=\linewidth]{../code/figures/Density-profiles-fractional impurity.pdf}
+      \includegraphics[width=\linewidth]{../code/figures/Density-profiles-fractional-impurity.pdf}
       \caption{Density profile of a chain in the superfluid phase containing 129 sites ($L$) with fractional filling $\rho=3/4$ and an impurity at site 65.}
       \label{fig:waves-impurity}
   \end{figure}
@@ -740,7 +794,7 @@ Finally, we will see what happens to the correlation function as $t$ approaches 
 We start in the MI phase and calculate a correlation length by fitting an exponential function to the correlation function at different values of $t$. The result is plotted in \cref{fig:cor lengths}. Although the finite system size and bond dimension prevent the correlation length of diverging, it can still be seen increasing rapidly towards $t/U\approx 0.3$ indicating a phase transition towards the SF phase around this value.
 \begin{center}
   \begin{figure}
-      \includegraphics[width=\linewidth]{../code/figures/Correlations-length values.pdf}
+      \includegraphics[width=\linewidth]{../code/figures/Correlations-length-values.pdf}
       \caption{Correlation lengths in the MI phase for different values of $t/U$ and $\rho=1$.}
       \label{fig:cor lengths}
   \end{figure}
@@ -749,7 +803,7 @@ We start in the MI phase and calculate a correlation length by fitting an expone
 In the SF phase we want to calculate the value of $K$ in \cref{eq:power decay}. Because only part of the correlation function decays algebraically it is important to fit a power law to the correct correlations. Furthermore, the transition occurs at integer densities, but for small $t/U$ the algebraic decay only applies to the SF phase at non-integer densities. To solve this problem, the correlation functions must be calculated for $\rho\rightarrow n$ with $n$ an integer value. \cref{fig:K values} shows the result for $\rho=31/32$. At $n=1$ the critical value is $K_c=1/2$ following from \cref{eq:Kc}. From this graph, the critical value seems to be at $t_c\approx 0.33$. This result is presumably too high, mainly because the density is not close enough to 1.
 \begin{center}
   \begin{figure}
-      \includegraphics[width=\linewidth]{../code/figures/Correlations-K values.pdf}
+      \includegraphics[width=\linewidth]{../code/figures/Correlations-K-values.pdf}
       \caption{Correlation lengths in the SF phase for different values of $t/U$ and $\rho=31/32$.}
       \label{fig:K values}
   \end{figure}
