@@ -1,6 +1,6 @@
 using ITensors, TensorKit, TensorOperations
 
-function boseHubbardHamiltonian(t::Float64, U::Float64, μ::Float64, L::Int)
+function boseHubbardHamiltonian(t::Float64, U::Float64, μ::Float64, L::Int; impurity_values::Array{Float64}=[0.0], impurity_sites::Array{Int}=[0], periodic_boundary::Bool=true, impurity::Bool=false)
     # Define the type of sites needed for the calculation.
     sites = siteinds("Qudit",L; dim=5,  conserve_qns=true, conserve_number=true)
 
@@ -16,8 +16,16 @@ function boseHubbardHamiltonian(t::Float64, U::Float64, μ::Float64, L::Int)
     H += U/2, "n", L, "n", L
 
     # Add periodic boundary conditions.
-    H += -t, "a", 1, "adag", L
-    H += -t, "adag", 1, "a", L
+    if periodic_boundary
+        H += -t, "a", 1, "adag", L
+        H += -t, "adag", 1, "a", L
+    end
+
+    if impurity
+        for (value, site) in zip(impurity_values, impurity_sites) 
+            H += -value, "n", site
+        end
+    end
     
     # Transform to an MPO Hamiltonian.
     Ham = MPO(H, sites)
@@ -93,4 +101,20 @@ function energyMinusOne(t::Float64, U::Float64, μ::Float64, L::Int, lobe::Int)
     @show flux(psi_m)
 
     return energy_m
+end
+
+
+function energy_gap(t::Float64, U::Float64, μ::Float64, L::Int)
+    Hamiltonian, site_type = boseHubbardHamiltonian(t, U, μ, L, periodic_boundary=false)
+
+    energies = []
+
+    for i in ["0", "1", "2"]
+        state = [j == 1 ? i : "1" for j in 1:L]
+        psi0 = randomMPS(site_type, state)
+        energy_m, psi_m = dmrg(Hamiltonian, psi0; nsweeps=100, maxdim=128, cutoff=1e-15, observer=DMRGObserver(;energy_tol=1e-10), output=0)
+        append!(energies, energy_m)
+    end
+    
+    return energies[1] + energies[3] - 2 * energies[2]
 end
