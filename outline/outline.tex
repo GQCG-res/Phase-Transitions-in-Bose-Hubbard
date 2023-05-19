@@ -381,7 +381,7 @@ In order to minimize an MPS wavefunction, we aim to minimize
 \begin{equation}
   \min_\phi \bra{\psi - \phi}\ket{\psi - \phi} = \min_\phi [-2\bra{\phi}\ket{\psi} + \bra{\psi}\ket{\psi}] \thinspace ,
 \end{equation}
-where $\psi$ represents the original MPS, and $\phi$ the new MPS, compressed by truncating the singular values, i.e. reducing the dimensions of the problem by discarding singular values smaller than a certain threshold. In graphical representation, the norms on the right hand side become
+where $\psi$ represents the original MPS, and $\phi$ the new MPS, compressed by truncating the singular values, i.e. reducing the dimensions of the problem by discarding singular values smaller than a certain threshold and retaining a so-called finite \emph{bond dimension} ($D$). In graphical representation, the norms on the right hand side become
 \begin{equation} 
     \bra{\phi}\ket{\psi} =
   \begin{tikzpicture}[baseline={([yshift=-.5ex]current bounding box.center)}]
@@ -748,7 +748,7 @@ These density waves decay algebraically (see fit in \cref{fig:waves}) due to the
 As such, complex interference effects are observed across the sites and cause the algebraic decay relation to fade. 
 
 \subsection{Finite size effects and bond dimension influence the decay pattern of the correlation function}
-One crucial difference between both phases of the Bose-Hubbard model is the manner in which the correlation function decays (\cref{eq:eq:correlation decay}), i.e. exponentially in the MI phase and algebraically in the SF phase. Due to finite size effects and density waves introduced by the open boundary conditions the correlation function is calculated by averaging out the correlation between multiple site pairs with a distance $r$ in order to reduce their influence. 
+One crucial difference between both phases of the Bose-Hubbard model is the manner in which the correlation function decays (\cref{eq:correlation decay}), i.e. exponentially in the MI phase and algebraically in the SF phase. Due to finite size effects and density waves introduced by the open boundary conditions the correlation function is calculated by averaging out the correlation between multiple site pairs with a distance $r$ in order to reduce their influence. 
 
 In the MI phase, especially for small $t/U$, the correlation function decays exponentially with a small correlation length of only a few sites (\cref{fig:corMI1}). 
 \begin{center}

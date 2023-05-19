@@ -23,14 +23,14 @@ jobs:
     - name: Archive outline for develop
       uses: actions/upload-artifact@v2
       with:
-        name: outline.pdf
-        path: outline/outline.pdf
+        name: Phase-transitions-in-the-bose-Hubbard-model.pdf
+        path: outline/Phase-transitions-in-the-bose-Hubbard-model.pdf
       if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/develop' }}
 
     - name: Archive outline for PR
       uses: actions/upload-artifact@v2
       with:
-        name: outline.pdf
-        path: outline/outline.pdf
+        name: Phase-transitions-in-the-bose-Hubbard-model.pdf
+        path: outline/Phase-transitions-in-the-bose-Hubbard-model.pdf
         retention-days: 5
       if: ${{ github.event_name == 'pull_request'}}
