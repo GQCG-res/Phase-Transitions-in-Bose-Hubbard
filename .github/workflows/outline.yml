@@ -16,21 +16,21 @@ jobs:
     - name: Compile LaTeX document
       uses: gqcg-oss/latex-action@master
       with:
-        root_file: outline.tex
+        root_file: Phase-transitions-in-the-bose-Hubbard-model.tex
         working_directory: outline
         latexmk_use_xelatex: true
 
     - name: Archive outline for develop
       uses: actions/upload-artifact@v2
       with:
-        name: outline.pdf
-        path: outline/outline.pdf
+        name: Phase-transitions-in-the-bose-Hubbard-model.pdf
+        path: outline/Phase-transitions-in-the-bose-Hubbard-model.pdf
       if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/develop' }}
 
     - name: Archive outline for PR
       uses: actions/upload-artifact@v2
       with:
-        name: outline.pdf
-        path: outline/outline.pdf
+        name: Phase-transitions-in-the-bose-Hubbard-model.pdf
+        path: outline/Phase-transitions-in-the-bose-Hubbard-model.pdf
         retention-days: 5
       if: ${{ github.event_name == 'pull_request'}}
