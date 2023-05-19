@@ -2,10 +2,10 @@ include("3.a. SymmConsDMRG.jl")
 
 using CurveFit
 
-function correlation_function(t::Float64, U::Float64, μ::Float64, L::Int; periodic::Bool=false, sweeps::Int=100, bond_dim::Int=128, convergence::Float64=1e-6, output::Bool=true)
+function correlation_function(t::Float64, U::Float64, μ::Float64, L::Int; ρ::Float64=1., periodic::Bool=false, sweeps::Int=100, bond_dim::Int=128, convergence::Float64=1e-6, output::Bool=true)
 
     Hamiltonian, site_type = boseHubbardHamiltonian(t, U, μ, L; periodic_boundary=periodic)
-    state = fill("1", L)
+    state = [i%(1/ρ) < 1 ? "1" : "0" for i in 0:L-1]
     psi0 = randomMPS(site_type, state)
 
     # calculate the ground state
@@ -14,20 +14,14 @@ function correlation_function(t::Float64, U::Float64, μ::Float64, L::Int; perio
     # calculate correlation matrix Cij between points i and j
     C = correlation_matrix(psi, "adag", "a")
 
-    if periodic
-        cor = C[1, 1:(L ÷ 2 - 1)]
-    else
-        # get rid of most of the boundary effects by removing 10 sites at each end
-        cor = C[10, 10:end-10]
-    end
-    return cor
+    return [sum(C[L ÷ 2 - r ÷ 2 + i, L ÷ 2 - r ÷ 2 + r + i] for i in -15:16)/32 for r in 0:(L-40)]
 end
 
-function density_function(t::Float64, U::Float64, μ::Float64, L::Int; periodic::Bool=false, sweeps::Int=100, bond_dim::Int=128, convergence::Float64=1e-4, output::Bool=true,
+function density_function(t::Float64, U::Float64, μ::Float64, L::Int; ρ::Float64=1., periodic::Bool=false, sweeps::Int=100, bond_dim::Int=128, convergence::Float64=1e-4, output::Bool=true,
                           impurity_values::Array{Float64}=[0.0], impurity_sites::Array{Int}=[1], impurity::Bool=false)
 
     Hamiltonian, site_type = boseHubbardHamiltonian(t, U, μ, L; impurity_values=impurity_values, impurity_sites=impurity_sites, periodic_boundary=periodic, impurity=impurity)
-    state = fill("1", L)
+    state = [i%(1/ρ) < 1 ? "1" : "0" for i in 0:L-1]
     psi0 = randomMPS(site_type, state)
 
     psi = dmrg(Hamiltonian, psi0; nsweeps=sweeps, maxdim=bond_dim, cutoff=1e-15, observer=DMRGObserver(;energy_tol=convergence), outputlevel=output ? 1 : 0)[2]
@@ -49,9 +43,9 @@ end
 
 #fit an exponential to the correlation function
 function correlation_length(t::Float64, U::Float64, μ::Float64, L::Int)
-    C = correlation_function(t, U, μ, L; convergence=1e-10)
+    C = correlation_function(t, U, μ, L; convergence=1e-10, output=false)
 
-    data = hcat(20:length(C)-1, C[21:end])
+    data = hcat(4:length(C)-1, C[5:end])
     l = 0
     
     for guess in 0.1:0.1:10
@@ -61,5 +55,5 @@ function correlation_length(t::Float64, U::Float64, μ::Float64, L::Int)
         end
     end
 
-    return l
+    return C, l
 end
