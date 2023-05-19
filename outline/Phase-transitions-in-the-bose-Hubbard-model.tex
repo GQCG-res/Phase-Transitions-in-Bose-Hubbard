@@ -228,12 +228,12 @@ the eigenstates of the Hamiltonian can be expanded in the orthonormal basis span
 \end{equation}
 with $\Psi^{n_{1} \ldots n_{L}}$ the expansion coefficient belonging to a basis state $\ket{n_{1}\dots n_{L}}$ over $L$ sites.
 
-Single particle excitations in the ground state of the Bose-Hubbard model can be defined as the difference between the potentials for half band filling and one particle less than half band filling
+Single particle excitations in the ground state of the Bose-Hubbard model can be defined as the difference between the potentials for half band filling (number of particles equals number of sites) and one particle less than half band filling
 \begin{align}
   \mu^+(L) &= E_0(L, N+1) - E_0(L, N) \thinspace ,\\
   \mu^-(L) &= E_0(L, N) - E_0(L, N-1) \thinspace ,
 \end{align}
-with $E_0(X, Y)$ representing the ground state energy of the system containing $X$ sites and $Y$ bosons. The excitation gap is then subsequently defined as their difference
+with $E_0(X, Y)$ representing the ground state energy of the system containing $X$ sites and $Y$ bosons \cite{ejima2011}. The excitation gap is then subsequently defined as their difference
 \begin{equation}
   \Delta(L) = \mu^+(L) - \mu^-(L) \thinspace .
   \label{eq:gap}
@@ -257,7 +257,7 @@ In this phase, non-integer densities ($\rho$) caused by either impurities or edg
     \langle n(r)n(0) \rangle_w \sim (\rho r)^{-2/K} \cos(2\pi\rho r) \thinspace .
     \label{eq:waves}
 \end{equation}
-From \cref{eq:waves}, it can be seen that the density waves decay slower as $K$ increases. This is in contrast with the correlation function (\cref{eq:power decay}) which decays faster for rising values of $K$. For integer densities, the cosine will vanish and the amplitude of the density waves reduces to zero.
+From \cref{eq:waves}, it can be seen that the density waves decay slower as $K$ increases. This is in contrast with the correlation function (\cref{eq:power decay}) which decays faster for rising values of $K$. For integer densities, the cosine will become one and the density waves will vanish.
 
 The phase transition to the superfluid phase brings with it a change in the decay of the correlation function. This decay is defined as
 \begin{equation}\label{eq:correlation decay}
