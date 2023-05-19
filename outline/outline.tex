@@ -228,12 +228,12 @@ the eigenstates of the Hamiltonian can be expanded in the orthonormal basis span
 \end{equation}
 with $\Psi^{n_{1} \ldots n_{L}}$ the expansion coefficient belonging to a basis state $\ket{n_{1}\dots n_{L}}$ over $L$ sites.
 
-Single particle excitations in the groundstate of the Bose-Hubbard model can be defined as the difference between the potentials for half band filling and one particle less than half band filling
+Single particle excitations in the ground state of the Bose-Hubbard model can be defined as the difference between the potentials for half band filling and one particle less than half band filling
 \begin{align}
   \mu^+(L) &= E_0(L, N+1) - E_0(L, N) \thinspace ,\\
   \mu^-(L) &= E_0(L, N) - E_0(L, N-1) \thinspace ,
 \end{align}
-with $E_0(X, Y)$ representing the groundstate energy of the system containing $X$ sites and $Y$ bosons. The excitation gap is then subsequently defined as their difference
+with $E_0(X, Y)$ representing the ground state energy of the system containing $X$ sites and $Y$ bosons. The excitation gap is then subsequently defined as their difference
 \begin{equation}
   \Delta(L) = \mu^+(L) - \mu^-(L) \thinspace .
   \label{eq:gap}
@@ -252,7 +252,7 @@ For the Bose-Hubbard model the value of $K$ is dependent on $t/U$ as well as the
 \end{equation}
 where $n$ represents the integer site filling \cite{PhysRevB.46.9325}.
 
-In this phase, non-integer densities ($\rho$) caused by either impurieties or edge effects in finite size systems induce density waves \cite{PhysRevLett.47.1840}. Generally the deviation from the equilibrium state is described as a superposition of an infinite amount of these waves, where the lowest order wave is given by 
+In this phase, non-integer densities ($\rho$) caused by either impurities or edge effects in finite size systems induce density waves \cite{PhysRevLett.47.1840}. Generally the deviation from the equilibrium state is described as a superposition of an infinite amount of these waves, where the lowest order wave is given by 
 \begin{equation}
     \langle n(r)n(0) \rangle_w \sim (\rho r)^{-2/K} \cos(2\pi\rho r) \thinspace .
     \label{eq:waves}
@@ -332,7 +332,7 @@ A singular value decomposition decomposes any state as
 \begin{equation} \label{eq:SVD}
   \Psi^{nm} = \sum_i L^n_i \sigma_i R^m_i \thinspace ,
 \end{equation}
-where the state $\Psi$ of dimensions $(n \times m)$ is decomposed in asummation of left eigenbases $L$ of dimensions $(n \times n)$, right eigenbases $R$ of dimensions $(m \times m)$ and \emph{diagonal}, rectangular $(n \times m)$ matrices of singular values $\sigma$. Here both $L$ and $R$ form a set of orthogonality conditions
+where the state $\Psi$ of dimensions $(n \times m)$ is decomposed in a summation of left eigenbases $L$ of dimensions $(n \times n)$, right eigenbases $R$ of dimensions $(m \times m)$ and \emph{diagonal}, rectangular $(n \times m)$ matrices of singular values $\sigma$. Here both $L$ and $R$ form a set of orthogonality conditions
 \begin{align}\label{eq:orthogonality}
   \begin{split} 
     \sum_n L^n_i L^n_j &= \delta_{ij} \thinspace , \\
@@ -374,7 +374,7 @@ and the subsequent orthonormality relations become
     \end{tikzpicture} &= \delta_{ij} \thinspace .
   \end{split}
 \end{align}
-The singular values in \cref{eq: SVD-graphic} can be absorbed in the tensor to the right, reducing everything on the left to a series of kronecker deltas due to \cref{eq: orthogonality-graphic}. This is called \emph{left gauging} the tensors MPS and leads to the \emph{left canonical form}. Analogously \emph{right gauging} the tensors results in the \emph{rihgt canonical form}. By fixing a single site and left gauging the tensors to the left of said site, as well as right gauging the right tensors, the MPS can be written in the \emph{mixed canonical form}. By a repeated application of such SVD's, we can write any quantum state as a series of matrix products, a matrix product state (MPS).
+The singular values in \cref{eq: SVD-graphic} can be absorbed in the tensor to the right, reducing everything on the left to a series of kronecker deltas due to \cref{eq: orthogonality-graphic}. This is called \emph{left gauging} the tensors MPS and leads to the \emph{left canonical form}. Analogously \emph{right gauging} the tensors results in the \emph{right canonical form}. By fixing a single site and left gauging the tensors to the left of said site, as well as right gauging the right tensors, the MPS can be written in the \emph{mixed canonical form}. By a repeated application of such SVD's, we can write any quantum state as a series of matrix products, a matrix product state (MPS).
 
 \subsubsection{Minimizing MPS wavefunctions with DMRG}
 In order to minimize an MPS wavefunction, we aim to minimize
@@ -709,7 +709,7 @@ The single-particle excitation gap closes for every imposed integer density on t
 
 \subsection{Superfluid Bose-Hubbard systems compensate impurities homogeneously across the system}
 
-The bose-Hubbard model can be modified with the imposition of certain potentials ($\omega_i$, \cref{eq:bose-hubbard-hamiltonian}) on distinct sites of the lattice. Doing so disturbs to the otherwise uniform lattice and can be used to mimick impurities in solid state materials. Stabilizing impurities in the MI phase causes the bosonic population to increase on the affected sites, leading to compensation effects in the neighbouring sites (\cref{fig:density-MI}), as the total particle number is preserved.
+The bose-Hubbard model can be modified with the imposition of certain potentials ($\omega_i$, \cref{eq:bose-hubbard-hamiltonian}) on distinct sites of the lattice. Doing so disturbs to the otherwise uniform lattice and can be used to mimic impurities in solid state materials. Stabilizing impurities in the MI phase causes the bosonic population to increase on the affected sites, leading to compensation effects in the neighboring sites (\cref{fig:density-MI}), as the total particle number is preserved.
 \begin{center}
   \begin{figure}
       \includegraphics[width=\linewidth]{../code/figures/Density-profiles-MI.pdf}
@@ -737,7 +737,7 @@ The system can also be brought in the superfluid phase at subcritical $U/t$ valu
       \label{fig:waves}
   \end{figure}
 \end{center}
-These density waves decay algebraically (see fit in \cref{fig:waves}) due to the edge effects present in the system with open boundary conditions. Introducing an impurity $\omega_i$ induces additional waves, whose wavelength  matches the inherent density waves of the systemat the edges. However, their phase shifts depending on the impurity site  (\cref{fig:waves-impurity}). 
+These density waves decay algebraically (see fit in \cref{fig:waves}) due to the edge effects present in the system with open boundary conditions. Introducing an impurity $\omega_i$ induces additional waves, whose wavelength  matches the inherent density waves of the system at the edges. However, their phase shifts depending on the impurity site  (\cref{fig:waves-impurity}). 
 \begin{center}
   \begin{figure}
       \includegraphics[width=\linewidth]{../code/figures/Density-profiles-fractional-impurity.pdf}
@@ -748,7 +748,7 @@ These density waves decay algebraically (see fit in \cref{fig:waves}) due to the
 As such, complex interference effects are observed across the sites and cause the algebraic decay relation to fade. 
 
 \subsection{Finite size effects and bond dimension influence the decay pattern of the correlation function}
-One crucial difference between both phases of the Bose-Hubbard model is the manner in which the correlation function decays (\cref{eq:eq:correlation decay}), i.e. expon entially in the MI phase and algebraically in the SF phase. Due to finite size eeffects and density waves introduced by the open boundary conditions the correlation function is calculated by averaging out the correlation between multiple site pairs with a distance $r$ in order to reduce their influence. 
+One crucial difference between both phases of the Bose-Hubbard model is the manner in which the correlation function decays (\cref{eq:eq:correlation decay}), i.e. exponentially in the MI phase and algebraically in the SF phase. Due to finite size effects and density waves introduced by the open boundary conditions the correlation function is calculated by averaging out the correlation between multiple site pairs with a distance $r$ in order to reduce their influence. 
 
 In the MI phase, especially for small $t/U$, the correlation function decays exponentially with a small correlation length of only a few sites (\cref{fig:corMI1}). 
 \begin{center}
@@ -777,7 +777,7 @@ When inducing the transition to the superfluid phase by imposing a fractional av
   \end{figure}
 \end{center}
  
-By calculating the correlation function for increasing values of maximum bond dimension $D$ we are able to accurately quantify the resulting errors caused by these finite size effects. Once $D$ transends past $D=64$ there is no longer any notable difference in the induced errors (\cref{fig:bonds}). 
+By calculating the correlation function for increasing values of maximum bond dimension $D$ we are able to accurately quantify the resulting errors caused by these finite size effects. Once $D$ transcends past $D=64$ there is no longer any notable difference in the induced errors (\cref{fig:bonds}). 
 \begin{center}
   \begin{figure}
       \includegraphics[width=\linewidth]{../code/figures/Correlations-bonds.pdf}

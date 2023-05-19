@@ -22,6 +22,11 @@
     "editor.wordWrap": "wordWrapColumn",
     "cSpell.words": [
         "DMRG",
+        "eigenbases",
+        "gapless",
+        "Luttinger",
+        "orthonormality",
+        "perturbatively",
         "Zhang"
     ]
 }
