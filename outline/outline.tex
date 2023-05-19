@@ -191,11 +191,13 @@
 
 The Bose-Hubbard model provides an excellent testbed to study quantum phase transitions (QPTs) \cite{sachdev1999} of strongly interacting bosonic systems in one \cite{kuhner1998} as well as higher dimensions \cite{freericks1994}. Due to the fundamental algebra underlying the physics of bosonic systems, the phase diagram of the bose-Hubbard model becomes more rich than that of its fermionic counterpart \cite{gu2004, deng2006, cozzini2007, chung2021, devriendt2022}. 
 
-Of particular interest is the Mott-Hubbard transition \cite{mott1949}, which in the bosonic model encapsulates a quantum phase transition from a superfluid to a Mott-insulator (MI) \cite{elstner1999, capello2007, cucchietti2007}. In one dimension, this transition agrees with the Berezinskii-Kosterlitz-Thouless (BKT) \cite{kosterlitz1973} scenario of the interaction-driven Mott transition.
+Of particular interest is the Mott-Hubbard transition \cite{mott1949}, which in the bosonic model encapsulates a quantum phase transition from a superfluid (SF) to a Mott-insulator (MI) \cite{elstner1999, capello2007, cucchietti2007}. In one dimension, this transition agrees with the Berezinskii-Kosterlitz-Thouless (BKT) \cite{kosterlitz1973} scenario of the interaction-driven Mott transition.
 
-In this work we will aim to model several aspects of this phase transition. Using a combination of exact diagonalization \cite{zhang2010} and constrained wavefunction theory /cite{mukherji1963}. This allows us to show how intrinsic bosonic redistributions give rise to different phases in small one-dimensional lattices. 
+the versatility of the Hubbard model allows to study different correlation regimes by tuning the two-particle repulsion term, the hopping and the on-site potential separately to different physics. At low U/t values ​​the particles interact little, while at high U/t values ​​the idempotency of the density matrix is ​​broken by static correlation effects leading to multiple quasi-degenerate states in the wavefunction\cite{fabrizio1999, batista2004, scalettar2016, walsh2019a, walsh2019b}. Between these limits, the system can adopt different phases that can be imposed by inducing charge transfer effects. Between these limits, the system can adopt different phases that can be imposed by inducing charge transfer effects. Furthermore, the orthogonality of the sites allows for simplified calculations, making exact diagonalization \cite{zhang2010} methods feasible for a limited system size.
 
-However, for describing the phases of the total system, exact diagonalization methods fall short. Due to the exponential scaling of the number of configurations, the problem becomes too large to handle. The formalism of matrix product states (MPS) \cite{perez2006} circumvents this issue by decomposing the total wavefunction into a series of matrix products through subsequent singular value decompositions. In order to optimize such a MPS wavefunction, the density matrix renormalization group (DMRG) can be used. This allows us to model the complete phase diagram of the system and study its response to external factor like impurities. These results will, in combination with the results and limits of the exact diagonalization approach, further uncover the underlying physics of such model systems.
+However, the still limited application regime of exact diagonalization leads to finite-size effects that make the description of critical points and associated physics of the total system impossible. However, to break free from these limitations, the property that states that each quantum state can be written as a series of matrix products (matrix product states, MPS)\cite{perez2006}, by means of successive singular value decompositions (SVD), can be used. An additional advantage associated with the use of such MPS is the simplification of the density matrix renormalization group (DMRG) algorithm \cite{white1993}, known for its excellent description of highly correlated systems and quantum entanglement, to a linear optimization problem \cite{schollwock2011a, schollwock2011b, verstraete2023}.
+
+In this study, we will use the Lagrange formalism of constraints \cite{mukherji1963} to induce population redistributions leading to different phases of matter, and study them with exact diagonalization techniques. When the systems to be studied become too large for these techniques, we will switch to an MPS representation to make use of the DMRG algorithm to model the phase diagram of the complete system and to study the properties of the different phases in more depth. Our results will lead to improved insights into the different quantum phases of matter of the Bose-Hubbard model as well as how these phases respond to the introduction of external stressors such as adding or removing a particle or introducing impurities onto the lattice.
 
 \section{Theory}
 \subsection{The bose-Hubbard model}
@@ -224,7 +226,6 @@ the eigenstates of the Hamiltonian can be expanded in the orthonormal basis span
 \end{equation}
 with $\Psi^{n_{1} \ldots n_{L}}$ the expansion coefficient belonging to a basis state $\ket{n_{1}\dots n_{L}}$ over $L$ sites.
 
-\subsection{ground state properties of the Bose Hubbard model}
 Single particle excitations in the groundstate of the Bose-Hubbard model can be defined as the difference between the potentials for half band filling and one particle less than half band filling
 \begin{align}
   \mu^+(L) &= E_0(L, N+1) - E_0(L, N) \thinspace ,\\
@@ -237,24 +238,24 @@ with $E_0(X, Y)$ representing the groundstate energy of the system containing $X
 \end{equation}
 
 \subsection{Superfluid phase of the Bose-Hubbard model}
-One of the phases of the Bose-Hubbard model can be described as a Luttinger Liquid. This is a generalization of the Fermi liquid for 1 dimension. It occurs at high values of t/U and is characterized by long interactions. The phase is gapless and the correlation function decays algebraically:
+After the Bose-Hubbard model transitions from the MI to the SF phase, it can be described as a so-called Luttinger liquid \cite{PhysRevB.46.9325}. This is a generalization of the Fermi liquid for one dimension, which occurs at high values of t/U and is characterized by long interactions. A superfluid phase is gapless and its correlation function decays algebraically
 \begin{equation}
-    \Gamma(r) = \langle b^\dagger(r)b(0)\rangle \sim r^{-K/2}
+    \Gamma(r) = \langle b^\dagger(r)b(0)\rangle \sim r^{-K/2} \thinspace .
+    \label{eq:power decay}
 \end{equation}
-For the Bose-Hubbard model it is dependent on $t/U$ and the filling of the sites. For a constant filling it is at first order given by 
+For the Bose-Hubbard model the value of $K$ is dependent on $t/U$ as well as the filling of the sites \cite{schulz1995fermi}. As such, the critical point at which the transition to the superfluid phase occurs can be identified as
 \begin{equation}
-    K = 1 - c \cdot \frac{U}{t}
+    K_c = \frac{n^2}{2} \thinspace ,
+    \label{eq:Kc}
 \end{equation}
-where c is some constant \cite{schulz1995fermi}. The phase transition to the superfluid phase occurs at a critical value
+where $n$ represents the integer site filling \cite{PhysRevB.46.9325}.
+
+In this phase, non-integer densities ($\rho$) caused by either impurieties or edge effects in finite size systems induce density waves \cite{PhysRevLett.47.1840}. Generally the deviation from the equilibrium state is described as a superposition of an infinite amount of these waves, where the lowest order wave is given by 
 \begin{equation}
-    K_c = \frac{n^2}{2}
+    \langle n(r)n(0) \rangle_w \sim (\rho r)^{-2/K} \cos(2\pi\rho r) \thinspace .
+    \label{eq:waves}
 \end{equation}
-with n the integer site filling \cite{PhysRevB.46.9325}. \\
-Because the density $\rho$ in this phase can be non-integer, density waves occur \cite{PhysRevLett.47.1840}. They can be caused by impurities or edge effects in a finite system. Generally the deviation from equilibrium is a superposition of an infinite amount of these waves, but the lowest order wave is given by 
-\begin{equation}
-    \langle n(r)n(0) \rangle_w \sim (\rho r)^{-2/K} \cos(2\pi\rho r)
-\end{equation}
-Although the correlation function decays faster for high values of K, the density waves decay slower instead. From the argument of the cosine, it is clear that these density waves do not occur for integer densities.
+From \cref{eq:waves}, it can be seen that the density waves decay slower as $K$ increases. This is in contrast with the correlation function (\cref{eq:power decay}) which decays faster for rising values of $K$. For integer densities, the cosine will vanish and the amplitude of the density waves reduces to zero.
 
 \subsection{Population redistributions on the bose-Hubbard model}
 As shown in literature \cite{devriendt2021, devriendt2022}, we can redistribute particles within our system by imposing constraints through a Lagrangian formalism \cite{mukherji1963, zeiss1983, kaduk2011}
@@ -479,7 +480,7 @@ If we now consider
   \begin{tikzpicture}[baseline={([yshift=-.5ex]current bounding box.center)}]
     \draw[gray, thick] (0,0) -- (1,0);
     \draw[gray, thick] (0.5,0) -- (0.5,0.5);
-    \node[draw, circle, line cap=round, fill=red!20] at (0,0) {\tiny 2};
+    \node[draw, circle, line cap=round, fill=red!20] at (0.5,0) {\tiny 2};
   \end{tikzpicture} = A^n_{ij} \equiv a[nij] 
 \end{equation}
 as a three-index tensor, we can combine \cref{eq:gradient-1} and \cref{eq:gradient-2} into $g[nij]$ and write the gradient step as
@@ -591,7 +592,7 @@ which can now be performed as a \emph{sweep algorithm} where the optimization is
 \begin{equation}
   Ma = b \rightarrow a = b \thinspace ,
 \end{equation}
-since the mixed canonical form contains orthogonality in the left-gauged and right-gauged tensors respectively, thus simplifying the $a$ to a kronecker delta. 
+since the mixed canonical form contains orthogonality in the left-gauged and right-gauged tensors respectively, thus simplifying the $M$ to a kronecker delta. 
 
 \section{Methodology}
 
@@ -665,7 +666,94 @@ As the strength of the impurity increases, the the amount of sites needed to com
 \end{center}
 The super-criticality in the particle number, associated with the SF phase, allows for the homogeneous compensation with respect to the impurities in the model.
 
-\subsection{Density waves give indication of correlation length}
+\subsection{Density waves caused by fractional site filling}
+As discussed earlier, the superfluid phase can also be investigated at small values of $t/U$ if the number of particles per site is a fractional value, rather than an integer which is required for the MI phase.  We can now see density waves described by \cref{eq:waves}. If the density is a fraction $p/q$, the waves on the grid will have a period of $q$ sites, as confirmed in \cref{fig:waves}. 
+The black line is a power-law decay fitted to a series of points with spacing 4 and shows the algebraic decay of these density waves caused by edge effects. 
+\begin{center}
+  \begin{figure}
+      \includegraphics[width=\linewidth]{../code/figures/Density-profiles-fractional density.pdf}
+      \caption{Density profile of a chain in the superfluid phase containing 129 sites ($L$) with fractional filling $\rho=3/4$.}
+      \label{fig:waves}
+  \end{figure}
+\end{center}
+When an impurity is added (\cref{fig:waves-impurity}), additional waves are formed. These have the same wavelength as the waves at the edges, but depending on the location of the impurity they can have a different phase. This causes interference between the different density waves. 
+\begin{center}
+  \begin{figure}
+      \includegraphics[width=\linewidth]{../code/figures/Density-profiles-fractional impurity.pdf}
+      \caption{Density profile of a chain in the superfluid phase containing 129 sites ($L$) with fractional filling $\rho=3/4$ and an impurity at site 65.}
+      \label{fig:waves-impurity}
+  \end{figure}
+\end{center}
+
+\subsection{Correlation functions and their decay}
+One of the most crucial differences between the MI and SF phase is the way in which the correlation function decays. For the Bose-Hubbard model it is defined as
+\begin{equation}
+    \Gamma(r) = \langle b^\dagger(r)b(0)\rangle
+\end{equation}
+For an infinite system or system with periodic boundaries the position of $b(0)$ does not matter and only the distance $r=\abs{i-j}$ between the 2 sites matters. However, we will be studying an open boundaries because the required bond dimension is lower for a convergent result. For this reason the correlation function is calculated by averaging out the correlation between multiple site pairs with a distance $r$ between them to reduce influence of finite size effects and density waves. 
+
+In the MI phase, especially for small $t/U$, the correlation function decays exponentially with a small correlation length of only a few sites (\cref{fig:corMI1}). Because the decay is so quick there is not a lot of influence of the finite size and bond dimension.
+\begin{center}
+  \begin{figure}
+      \includegraphics[width=\linewidth]{../code/figures/Correlations-MI1.pdf}
+      \caption{Correlation function in the MI phase with 128 sites for $t/U=0.1$ and $\rho=1$.}
+      \label{fig:corMI1}
+  \end{figure}
+\end{center}
+The correlation function in the SF phase is less straightforward (\cref{fig:corSF1}). The correlation between sites close to each other deviates from the expected result because of finite size effects. After that, an algebraic decay can be seen as a straight line on the log-log plot. Because DMRG uses a finite bond dimension, this limits the correlation length, causing the correlation function to decay exponentially at the end. For these reasons, the power of the decay is fitted to the algebraic part of the function.
+\begin{center}
+  \begin{figure}
+      \includegraphics[width=\linewidth]{../code/figures/Correlations-SF1.pdf}
+      \caption{Correlation function in the SF phase with 128 sites for $t/U=0.5$ and $\rho=1$.}
+      \label{fig:corSF1}
+  \end{figure}
+\end{center}
+Finally, we also take a look at the SF phase with partial site filling at low values of $t/U$. The decay looks very similar to the one for large $t/U$, but the decay is a lot slower as can be seen on the y-axis (\cref{fig:corSF2}). 
+\begin{center}
+  \begin{figure}
+      \includegraphics[width=\linewidth]{../code/figures/Correlations-SF2.pdf}
+      \caption{Correlation function in the SF phase with 128 sites for $t/U=0.1$ and $\rho=1/4$.}
+      \label{fig:corSF2}
+  \end{figure}
+\end{center}
+So far we have only vaguely referred to the errors being caused by finite size and limited bond dimension, but it might be interesting to see how big of an influence they actually are. 
+In \cref{fig:bonds} the correlation function is calculated for increasing values of the maximum bond dimension used in DMRG. It seems that for bond dimensions higher than 64 there is no noticeable difference, so for upcoming calculations a bond dimension of 128 will be used. However, there is still an exponential decay for large r so this can not be the only cause.
+\begin{center}
+  \begin{figure}
+      \includegraphics[width=\linewidth]{../code/figures/Correlations-bonds.pdf}
+      \caption{Correlation functions in the SF phase with 128 sites and different maximum bond dimensions.}
+      \label{fig:bonds}
+  \end{figure}
+\end{center}
+Next, we do the same calculation for different system sizes (\cref{fig:lengths}). This causes small differences for small r, although slightly hard to see at log scale, and bigger deviations for large r. The finite size seems to cause an exponential decay at the end as well, which would explain why it remained at large bond dimensions. The algebraic part is the same for all lengths however and a system with 128 sites seems to be sufficient to get a clear algebraic decay.
+\begin{center}
+  \begin{figure}
+      \includegraphics[width=\linewidth]{../code/figures/Correlations-lengths.pdf}
+      \caption{Correlation functions in the SF phase with 128 sites and different maximum bond dimensions.}
+      \label{fig:lengths}
+  \end{figure}
+\end{center}
+
+\subsection{Correlations near the critical point}
+Finally, we will see what happens to the correlation function as $t$ approaches the critical value $t_c$ that marks the phase transition. Unfortunately, it is almost impossible to calculate an exact value for $t_c$, because the correlation length diverges non-perturbatively making small errors due to finite size and bond dimension cause large differences in calculated values. However, it is still possible to see the presence of a critical point influence the correlation function. 
+
+We start in the MI phase and calculate a correlation length by fitting an exponential function to the correlation function at different values of $t$. The result is plotted in \cref{fig:cor lengths}. Although the finite system size and bond dimension prevent the correlation length of diverging, it can still be seen increasing rapidly towards $t/U\approx 0.3$ indicating a phase transition towards the SF phase around this value.
+\begin{center}
+  \begin{figure}
+      \includegraphics[width=\linewidth]{../code/figures/Correlations-length values.pdf}
+      \caption{Correlation lengths in the MI phase for different values of $t/U$ and $\rho=1$.}
+      \label{fig:cor lengths}
+  \end{figure}
+\end{center}
+
+In the SF phase we want to calculate the value of $K$ in \cref{eq:power decay}. Because only part of the correlation function decays algebraically it is important to fit a power law to the correct correlations. Furthermore, the transition occurs at integer densities, but for small $t/U$ the algebraic decay only applies to the SF phase at non-integer densities. To solve this problem, the correlation functions must be calculated for $\rho\rightarrow n$ with $n$ an integer value. \cref{fig:K values} shows the result for $\rho=31/32$. At $n=1$ the critical value is $K_c=1/2$ following from \cref{eq:Kc}. From this graph, the critical value seems to be at $t_c\approx 0.33$. This result is presumably too high, mainly because the density is not close enough to 1.
+\begin{center}
+  \begin{figure}
+      \includegraphics[width=\linewidth]{../code/figures/Correlations-K values.pdf}
+      \caption{Correlation lengths in the SF phase for different values of $t/U$ and $\rho=31/32$.}
+      \label{fig:K values}
+  \end{figure}
+\end{center}
 
 \section{Conclusions}
 
