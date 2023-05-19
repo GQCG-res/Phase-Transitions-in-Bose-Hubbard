@@ -16,7 +16,7 @@ jobs:
     - name: Compile LaTeX document
       uses: gqcg-oss/latex-action@master
       with:
-        root_file: outline.tex
+        root_file: Phase-transitions-in-the-bose-Hubbard-model.tex
         working_directory: outline
         latexmk_use_xelatex: true
 
