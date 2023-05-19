@@ -259,6 +259,12 @@ In this phase, non-integer densities ($\rho$) caused by either impurieties or ed
 \end{equation}
 From \cref{eq:waves}, it can be seen that the density waves decay slower as $K$ increases. This is in contrast with the correlation function (\cref{eq:power decay}) which decays faster for rising values of $K$. For integer densities, the cosine will vanish and the amplitude of the density waves reduces to zero.
 
+The phase transition to the superfluid phase brings with it a change in the decay of the correlation function. This decay is defined as
+\begin{equation}\label{eq:correlation decay}
+  \Gamma(r) = \langle b^\dagger(r)b(0)\rangle \thinspace .
+\end{equation}
+For infinite systems, this decay is solely influenced by the distance between sites $b(0)$ and $b(r)$, i.e. $r = \abs{i-j}$, not the position of site $b(0)$ itself.
+
 \subsection{Population redistributions on the bose-Hubbard model}
 As shown in literature \cite{devriendt2021, devriendt2022}, we can redistribute particles within our system by imposing constraints through a Lagrangian formalism \cite{mukherji1963, zeiss1983, kaduk2011}
 \begin{equation}
@@ -321,6 +327,7 @@ where the \emph{chemical potential} $\lambda$ can be tuned in order to impose a 
 
 \subsection{Density matrix renormalization group}
 \subsubsection{Singular value decomposition}
+
 A singular value decomposition decomposes any state as
 \begin{equation} \label{eq:SVD}
   \Psi^{nm} = \sum_i L^n_i \sigma_i R^m_i \thinspace ,
@@ -721,8 +728,8 @@ As the strength of the impurity increases, the the amount of sites needed to com
 The super-criticality in the particle number, associated with the SF phase, allows for the homogeneous compensation with respect to the impurities in the model.
 
 \subsection{Fractional filling of the system induces density waves}
-As discussed earlier, the superfluid phase can also be investigated at small values of $t/U$ if the number of particles per site is a fractional value, rather than an integer which is required for the MI phase.  We can now see density waves described by \cref{eq:waves}. If the density is a fraction $p/q$, the waves on the grid will have a period of $q$ sites, as confirmed in \cref{fig:waves}. 
-The black line is a power-law decay fitted to a series of points with spacing 4 and shows the algebraic decay of these density waves caused by edge effects. 
+
+The system can also be brought in the superfluid phase at subcritical $U/t$ values by setting the total particle number in such a way that as an average, sites have a non-integer filling (\cref{eq:waves}). Such a fractional filling induces density waves throughout the system. These waves will have a frequency of $q$ sites for a fractional $\expval{\hat{n}} = \rho/q$ (\cref{fig:waves}). 
 \begin{center}
   \begin{figure}
       \includegraphics[width=\linewidth]{../code/figures/Density-profiles-fractional-density.pdf}
@@ -730,7 +737,7 @@ The black line is a power-law decay fitted to a series of points with spacing 4 
       \label{fig:waves}
   \end{figure}
 \end{center}
-When an impurity is added (\cref{fig:waves-impurity}), additional waves are formed. These have the same wavelength as the waves at the edges, but depending on the location of the impurity they can have a different phase. This causes interference between the different density waves. 
+These density waves decay algebraically (see fit in \cref{fig:waves}) due to the edge effects present in the system with open boundary conditions. Introducing an impurity $\omega_i$ induces additional waves, whose wavelength  matches the inherent density waves of the systemat the edges. However, their phase shifts depending on the impurity site  (\cref{fig:waves-impurity}). 
 \begin{center}
   \begin{figure}
       \includegraphics[width=\linewidth]{../code/figures/Density-profiles-fractional-impurity.pdf}
@@ -738,15 +745,12 @@ When an impurity is added (\cref{fig:waves-impurity}), additional waves are form
       \label{fig:waves-impurity}
   \end{figure}
 \end{center}
+As such, complex interference effects are observed across the sites and cause the algebraic decay relation to fade. 
 
-\subsection{Correlation functions and their decay}
-One of the most crucial differences between the MI and SF phase is the way in which the correlation function decays. For the Bose-Hubbard model it is defined as
-\begin{equation}
-    \Gamma(r) = \langle b^\dagger(r)b(0)\rangle
-\end{equation}
-For an infinite system or system with periodic boundaries the position of $b(0)$ does not matter and only the distance $r=\abs{i-j}$ between the 2 sites matters. However, we will be studying an open boundaries because the required bond dimension is lower for a convergent result. For this reason the correlation function is calculated by averaging out the correlation between multiple site pairs with a distance $r$ between them to reduce influence of finite size effects and density waves. 
+\subsection{Finite size effects and bond dimension influence the decay pattern of the correlation function}
+One crucial difference between both phases of the Bose-Hubbard model is the manner in which the correlation function decays (\cref{eq:eq:correlation decay}), i.e. expon entially in the MI phase and algebraically in the SF phase. Due to finite size eeffects and density waves introduced by the open boundary conditions the correlation function is calculated by averaging out the correlation between multiple site pairs with a distance $r$ in order to reduce their influence. 
 
-In the MI phase, especially for small $t/U$, the correlation function decays exponentially with a small correlation length of only a few sites (\cref{fig:corMI1}). Because the decay is so quick there is not a lot of influence of the finite size and bond dimension.
+In the MI phase, especially for small $t/U$, the correlation function decays exponentially with a small correlation length of only a few sites (\cref{fig:corMI1}). 
 \begin{center}
   \begin{figure}
       \includegraphics[width=\linewidth]{../code/figures/Correlations-MI1.pdf}
@@ -754,7 +758,9 @@ In the MI phase, especially for small $t/U$, the correlation function decays exp
       \label{fig:corMI1}
   \end{figure}
 \end{center}
-The correlation function in the SF phase is less straightforward (\cref{fig:corSF1}). The correlation between sites close to each other deviates from the expected result because of finite size effects. After that, an algebraic decay can be seen as a straight line on the log-log plot. Because DMRG uses a finite bond dimension, this limits the correlation length, causing the correlation function to decay exponentially at the end. For these reasons, the power of the decay is fitted to the algebraic part of the function.
+Due to the fast decay, finite size effects and the effects of the density waves can almost be neglected. In the superfluid phase however, these effects cause the correlation to deviate from the expected fit (\cref{fig:corSF1}). As the distance starts to increase, the decay relation becomes algebraic.
+
+The finite bond dimension used throughout the DMRG algorithm limits the correlation length, causing the decay of the correlation function to transition towards an exponential fit starting at approximately $r=50$.
 \begin{center}
   \begin{figure}
       \includegraphics[width=\linewidth]{../code/figures/Correlations-SF1.pdf}
@@ -762,7 +768,7 @@ The correlation function in the SF phase is less straightforward (\cref{fig:corS
       \label{fig:corSF1}
   \end{figure}
 \end{center}
-Finally, we also take a look at the SF phase with partial site filling at low values of $t/U$. The decay looks very similar to the one for large $t/U$, but the decay is a lot slower as can be seen on the y-axis (\cref{fig:corSF2}). 
+When inducing the transition to the superfluid phase by imposing a fractional average occupation per site, at sub-critical $t/U$ values, the decay is qualitatively identical to the large $t/U$ case, but occurs much slower (\cref{fig:corSF2}).
 \begin{center}
   \begin{figure}
       \includegraphics[width=\linewidth]{../code/figures/Correlations-SF2.pdf}
@@ -770,8 +776,8 @@ Finally, we also take a look at the SF phase with partial site filling at low va
       \label{fig:corSF2}
   \end{figure}
 \end{center}
-So far we have only vaguely referred to the errors being caused by finite size and limited bond dimension, but it might be interesting to see how big of an influence they actually are. 
-In \cref{fig:bonds} the correlation function is calculated for increasing values of the maximum bond dimension used in DMRG. It seems that for bond dimensions higher than 64 there is no noticeable difference, so for upcoming calculations a bond dimension of 128 will be used. However, there is still an exponential decay for large r so this can not be the only cause.
+ 
+By calculating the correlation function for increasing values of maximum bond dimension $D$ we are able to accurately quantify the resulting errors caused by these finite size effects. Once $D$ transends past $D=64$ there is no longer any notable difference in the induced errors (\cref{fig:bonds}). 
 \begin{center}
   \begin{figure}
       \includegraphics[width=\linewidth]{../code/figures/Correlations-bonds.pdf}
@@ -779,7 +785,7 @@ In \cref{fig:bonds} the correlation function is calculated for increasing values
       \label{fig:bonds}
   \end{figure}
 \end{center}
-Next, we do the same calculation for different system sizes (\cref{fig:lengths}). This causes small differences for small r, although slightly hard to see at log scale, and bigger deviations for large r. The finite size seems to cause an exponential decay at the end as well, which would explain why it remained at large bond dimensions. The algebraic part is the same for all lengths however and a system with 128 sites seems to be sufficient to get a clear algebraic decay.
+However, at large $r$ values, the decay still becomes exponential, even at $D\ge64$. Calculations for different system sizes at a constant $D$ elucidate that the decay functions still decay exponentially at large $r$ values (\cref{fig:lengths}). As such, decay function becoming exponential has its root in the systematic errors due to finite size. The initial algebraic decay remains indifferent with respect to system size and is sufficiently well documented starting at $L=128$.
 \begin{center}
   \begin{figure}
       \includegraphics[width=\linewidth]{../code/figures/Correlations-lengths.pdf}
@@ -788,19 +794,19 @@ Next, we do the same calculation for different system sizes (\cref{fig:lengths})
   \end{figure}
 \end{center}
 
-\subsection{Correlations near the critical point}
-Finally, we will see what happens to the correlation function as $t$ approaches the critical value $t_c$ that marks the phase transition. Unfortunately, it is almost impossible to calculate an exact value for $t_c$, because the correlation length diverges non-perturbatively making small errors due to finite size and bond dimension cause large differences in calculated values. However, it is still possible to see the presence of a critical point influence the correlation function. 
+\subsection{Correlation function and its decay indicate the presence of the critical point $t_c$}
 
-We start in the MI phase and calculate a correlation length by fitting an exponential function to the correlation function at different values of $t$. The result is plotted in \cref{fig:cor lengths}. Although the finite system size and bond dimension prevent the correlation length of diverging, it can still be seen increasing rapidly towards $t/U\approx 0.3$ indicating a phase transition towards the SF phase around this value.
+Modelling the critical point $t_c$ of a BKT-transition is very computationally demanding due to the fact that the correlation length diverges non-perturbatively making small errors due to finite size and bond dimension cause large differences in calculated values. In the MI phase however, its presence can still be seen by the rapidly increasing correlation length towards $t/U\approx 0.3$ (\cref{fig:cor lengths}), modelled by fitting an exponential function to the correlation function at different values of $t$. 
 \begin{center}
   \begin{figure}
       \includegraphics[width=\linewidth]{../code/figures/Correlations-length-values.pdf}
-      \caption{Correlation lengths in the MI phase for different values of $t/U$ and $\rho=1$.}
+      \caption{Correlation lengths in the MI phase for different values of $t/U$ and $\rho=1$. Calculated for a system with $L=128$ and open boundary conditions.}
       \label{fig:cor lengths}
   \end{figure}
 \end{center}
+Finite size effects and finite bond dimension still prevent the correlation length from diverging, however. 
 
-In the SF phase we want to calculate the value of $K$ in \cref{eq:power decay}. Because only part of the correlation function decays algebraically it is important to fit a power law to the correct correlations. Furthermore, the transition occurs at integer densities, but for small $t/U$ the algebraic decay only applies to the SF phase at non-integer densities. To solve this problem, the correlation functions must be calculated for $\rho\rightarrow n$ with $n$ an integer value. \cref{fig:K values} shows the result for $\rho=31/32$. At $n=1$ the critical value is $K_c=1/2$ following from \cref{eq:Kc}. From this graph, the critical value seems to be at $t_c\approx 0.33$. This result is presumably too high, mainly because the density is not close enough to 1.
+In the superfluid phase, the critical value of $K$ (\cref{eq:power decay}), i.e. $K_c$ can be approximated by fitting a power law to the algebraically decaying correlations (evidenced by \cref{fig:corSF1}, \cref{fig:corSF2}, \cref{fig:bonds} and \cref{fig:lengths}). To circumvent the fact that the algebraic decay relation only applies for non-integer average occupations at small $t/U$, the correlation functions are calculated for $\rho\rightarrow n$ with $n$ an integer value. When the average density on each site equals one ($n=1$), the critical $K_c$ can be calculated to be $K_c=1/2$ (using \cref{eq:Kc}). By approximating the density in $\rho\rightarrow n$ as $\rho=31/32$, the critical value found is approximately $K_c\approx 0.33$ (\cref{fig:K values}).
 \begin{center}
   \begin{figure}
       \includegraphics[width=\linewidth]{../code/figures/Correlations-K-values.pdf}
@@ -808,13 +814,11 @@ In the SF phase we want to calculate the value of $K$ in \cref{eq:power decay}. 
       \label{fig:K values}
   \end{figure}
 \end{center}
+This result is too high, presumably because the density does not approach $n=1$ closely enough.
 
 \section{Conclusions}
 
-\begin{itemize}
-  \item The bosonic Hubbard model shows identical characteristics to Fermi-Hubbard with the exception that multiple Mott-Hubbard plateaus arise, due to the absence of the fermionic occupation limit (i.e. Pauli's exclusion principle).
-  \item The Bose Hubbard model also adheres to the flat-plane conditions as described by Perdew \cite{perdew1982}.
-\end{itemize}
+In this study we showed that occupation redistributions with exact diagonalization techniques give an indication about the possible phase transitions of the system. However, due to the limitations of these techniques, MPS methods and the DMRG algorithm are required to model the complete phase diagram. Using this phase diagram, we have shown how the different phases deal with the introduction of impurities to the lattice and that the contribution of finite size effects contributes more to the systematic errors than a finite bond dimension. Finally, we have proven that the methodology used can already give a good indication of the critical point if the systematic errors of the algorithm are properly taken into account, even though the critical point of a BKT transition is notoriously difficult to describe.
 
 % \section*{Acknowledgements}
 
@@ -827,11 +831,10 @@ In the SF phase we want to calculate the value of $K$ in \cref{eq:power decay}. 
 
 %The \balance command can be used to balance the columns on the final page if desired. It should be placed anywhere within the first column of the last page.
 
-\balance
+%\balance
 
 %If notes are included in your references you can change the title from 'References' to 'Notes and references' using the following command:
 %\renewcommand\refname{Notes and references}
-
 %%%REFERENCES%%%
 \bibliography{outline} %You need to replace "rsc" on this line with the name of your .bib file
 \bibliographystyle{aip} %the AIP's .bst file
