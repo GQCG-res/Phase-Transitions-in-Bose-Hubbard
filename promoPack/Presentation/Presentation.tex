@@ -241,8 +241,23 @@
   \frametitle{... Give rise to Mott-Hubbard plateaus and flat-planes}
   \framesubtitle{in the strong correlation regime}
   \begin{center}
-    \includegraphics[scale=0.22]{../img/BH-3in3-NvsMu.pdf}
-    \includegraphics[scale=0.22]{../img/BH-3in3-EvsN.pdf}
+    \begin{columns}[onlytextwidth]
+      \begin{column}{0.5\textwidth}
+        \begin{figure}[ht]
+          \centering
+          \includegraphics[scale=0.2]{../img/BH-3in3-NvsMu.pdf}
+          \caption*{Mott-Hubbard plateaus.}
+        \end{figure}
+      \end{column}
+
+      \begin{column}{0.5\textwidth}
+        \begin{figure}[ht]
+          \centering
+          \includegraphics[scale=0.2]{../img/BH-3in3-EvsN.pdf}
+          \caption*{Flat-plane conditions.}
+        \end{figure}
+      \end{column}
+    \end{columns}
   \end{center}
 \end{frame}
 
@@ -608,10 +623,22 @@
 
 \begin{frame}
   \frametitle{The superfluid phase compensates uniformly for impurities}
-  \begin{center}
-    \includegraphics[scale=0.22]{../img/Density-profiles-MI.pdf}
-    \includegraphics[scale=0.22]{../img/Density-profiles-SF.pdf}
-  \end{center}
+  \begin{columns}[onlytextwidth]
+    \begin{column}{0.5\textwidth}
+      \begin{figure}[ht]
+        \centering
+        \includegraphics[scale=0.2]{../img/Density-profiles-MI.pdf}
+        \caption*{Mott-insulator.}
+      \end{figure}
+    \end{column}
+    \begin{column}{0.5\textwidth}
+      \begin{figure}[ht]
+        \centering
+        \includegraphics[scale=0.2]{../img/Density-profiles-SF.pdf}
+        \caption*{Superfluid.}
+      \end{figure}
+    \end{column}
+  \end{columns}
 \end{frame}
 
 \begin{frame}
@@ -629,10 +656,22 @@
     \end{equation}
   \end{onlyenv}
   \begin{onlyenv}<3>
-    \begin{center}
-      \includegraphics[scale=0.22]{../img/Density-profiles-fractional-density.pdf}
-      \includegraphics[scale=0.22]{../img/Density-profiles-fractional-impurity.pdf}
-    \end{center}
+    \begin{columns}[onlytextwidth]
+      \begin{column}{0.5\textwidth}
+        \begin{figure}[ht]
+          \centering
+          \includegraphics[scale=0.2]{../img/Density-profiles-fractional-density.pdf}
+          \caption*{Without impurity.}
+        \end{figure}
+      \end{column}
+      \begin{column}{0.5\textwidth}
+        \begin{figure}[ht]
+          \centering
+          \includegraphics[scale=0.2]{../img/Density-profiles-fractional-impurity.pdf}
+          \caption*{With impurity.}
+        \end{figure}
+      \end{column}
+    \end{columns}
   \end{onlyenv}
 \end{frame}
 
@@ -651,26 +690,55 @@
   \end{onlyenv}
   \frametitle<3>{...and algebraically in the superfluid phase}
   \begin{onlyenv}<3>
-    \begin{center}
-      \includegraphics[scale=0.22]{../img/Correlations-SF1.pdf}
-      \includegraphics[scale=0.22]{../img/Correlations-SF2.pdf}
-    \end{center}
+    \begin{columns}[onlytextwidth]
+      \begin{column}{0.5\textwidth}
+        \begin{figure}[ht]
+          \centering
+          \includegraphics[scale=0.2]{../img/Correlations-SF1.pdf}
+          \caption*{SF with integer occupation.}
+        \end{figure}
+      \end{column}
+      \begin{column}{0.5\textwidth}
+        \begin{figure}[ht]
+          \centering
+          \includegraphics[scale=0.2]{../img/Correlations-SF2.pdf}
+          \caption*{SF with fractional occupation.}
+        \end{figure}
+      \end{column}
+    \end{columns}
+    \begin{equation}
+      r^{-K/2}
+    \end{equation}
   \end{onlyenv}
 \end{frame}
 
 \begin{frame}
   \frametitle<1>{Bond dimension influences the decay function}
   \begin{onlyenv}<1>
-    \begin{center}
+    \begin{figure}[ht]
+      \centering
       \includegraphics[scale=0.3]{../img/Correlations-bonds.pdf}
-    \end{center}
+    \end{figure}
   \end{onlyenv}
   \frametitle<2>{Bond dimension \emph{and finite size effects} influences the decay function}
   \begin{onlyenv}<2>
-    \begin{center}
-      \includegraphics[scale=0.22]{../img/Correlations-bonds.pdf}
-      \includegraphics[scale=0.22]{../img/Correlations-lengths.pdf}
-    \end{center}
+    \begin{columns}[onlytextwidth]
+      \begin{column}{0.5\textwidth}
+        \begin{figure}[ht]
+          \centering
+          \includegraphics[scale=0.2]{../img/Correlations-bonds.pdf}
+          \caption*{Decay with respect to bond dimension.}
+        \end{figure}
+      \end{column}
+
+      \begin{column}{0.5\textwidth}
+        \begin{figure}[ht]
+          \centering
+          \includegraphics[scale=0.2]{../img/Correlations-lengths.pdf}
+          \caption*{Decay with respect to system size.}
+        \end{figure}
+      \end{column}
+    \end{columns}
   \end{onlyenv}
 \end{frame}
 
@@ -681,6 +749,9 @@
     \begin{center}
       \includegraphics[scale=0.22]{../img/Correlations-length-values.pdf}
     \end{center}
+    \begin{equation}
+      \exp(\frac{-r}{\xi})
+    \end{equation}
   \end{onlyenv}
   \begin{onlyenv}<2>
     \begin{equation}
@@ -697,11 +768,16 @@
       \includegraphics[scale=0.2]{../img/Correlations-K-values.pdf}
     \end{center}
   \end{onlyenv}
+  \begin{onlyenv}<1>
+    \begin{equation}
+      r^{-K/2}
+    \end{equation}
+  \end{onlyenv}
   \begin{onlyenv}<2->
     \begin{itemize}
       \item<2-> $\rho \rightarrow n$, with $n$ an integer value 
       \item<3-> $\rho = \frac{31}{32}$
-      \item<4-> $K_c \approx 0.33 < K_{c, \text{exact}} (0.5)$
+      \item<4-> $t_c \approx 0.33$
     \end{itemize}
   \end{onlyenv}
 \end{frame}
@@ -722,7 +798,7 @@
         \begin{figure}[ht]
           \centering
           \includegraphics[height=2cm, width=\textwidth,keepaspectratio]{../img/Density-profiles-fractional-density.pdf}
-          \caption*{fractional occupations induce density waves.}
+          \caption*{Fractional occupations induce density waves.}
         \end{figure}   
       \end{onlyenv}
     \end{column}
