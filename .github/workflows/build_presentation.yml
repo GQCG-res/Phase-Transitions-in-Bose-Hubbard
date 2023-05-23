@@ -26,16 +26,16 @@ jobs:
         root_file: Presentation.tex
         working_directory: promoPack/Presentation
         latexmk_use_xelatex: true
-    - name: Archive presentation.pdf for PR
+    - name: Archive Presentation.pdf for PR
       uses: actions/upload-artifact@v2
       with:
-        name: presentation.pdf
+        name: Presentation.pdf
         path: promoPack/Presentation/Presentation.pdf
         retention-days: 5
       if: ${{ github.event_name == 'pull_request'}}
     - name: Archive presentation.pdf for develop
       uses: actions/upload-artifact@v2
       with:
-        name: presentation.pdf
+        name: Presentation.pdf
         path: promoPack/Presentation/Presentation.pdf
       if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/develop' }}    
